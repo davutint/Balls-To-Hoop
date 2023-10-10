@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
+
 public class PotaBuyutme : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI sure;
     [SerializeField] private int BaslangıcSuresi;
-    [SerializeField] private GameManager gameManager;
+    private GameManager gameManager;
     int tmp;
     private void Start()
     {
+        gameManager= GameObject.FindWithTag("GameController").GetComponent<GameManager>();
         tmp = BaslangıcSuresi;
         StartCoroutine(SayacBaslasın());
     }
+
+    
 
     IEnumerator SayacBaslasın()//bu objeyi instantiate etmek gerekiyor
     {
@@ -25,7 +30,7 @@ public class PotaBuyutme : MonoBehaviour
             sure.text = BaslangıcSuresi.ToString();
             if (BaslangıcSuresi==0)
             {
-                gameObject.SetActive(false);
+                Destroy(gameObject);
                 BaslangıcSuresi = tmp;
                
             }
@@ -37,7 +42,7 @@ public class PotaBuyutme : MonoBehaviour
         if (other.CompareTag("Top"))
         {
             gameManager.PotaBüyüt();
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 }

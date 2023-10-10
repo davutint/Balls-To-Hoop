@@ -10,10 +10,15 @@ public class Top : MonoBehaviour
         if (other.CompareTag("basket"))
         {
             _Gamemanager.Basket();
+            SoundManager.instance.PotayaGırısCal();
         }
         else if (other.CompareTag("oyunbitti"))
         {
             _Gamemanager.Kaybettin();
         }
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        SoundManager.instance.SekmeSesCal();
     }
 }
