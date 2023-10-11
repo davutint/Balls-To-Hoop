@@ -5,8 +5,9 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
-    [SerializeField] private AudioSource Sekme;
-    [SerializeField] private AudioSource PotayaGırıs;
+    public AudioSource Sekme;
+    public AudioSource PotayaGırıs;
+    public AudioSource OyunSesi;
 
 
     private void Awake()
