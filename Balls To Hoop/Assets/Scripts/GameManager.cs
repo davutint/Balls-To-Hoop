@@ -41,8 +41,13 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        RenderSettings.skybox.SetFloat("_Rotation", Time.time * .5f);// skyboxu hareket ettiriyoruz;
         if (oyunBasladı)
         {
+
+
+
+
             if (Input.GetMouseButtonDown(0))
             {
                 Vector3 mousePos = Input.mousePosition;
@@ -52,14 +57,14 @@ public class GameManager : MonoBehaviour
                 {
 
                     //left -70
-                    float solAcı = 50;
+                    float solAcı = 45;
                     toprb.AddForce(new Vector3(solAcı, 90, 0) * Uygulanacakguc, ForceMode.Force);
                 }
                 else if (mousePos.x > Screen.width / 2)
                 {
                     //right 70
 
-                    float sagAcı = -50;
+                    float sagAcı = -45;
                     toprb.AddForce(new Vector3(sagAcı, 90, 0) * Uygulanacakguc, ForceMode.Force);
                 }
                 else
@@ -71,7 +76,7 @@ public class GameManager : MonoBehaviour
 
             }
 
-            //EngelAyarları();
+            EngelAyarları();
         }
 
   
@@ -80,9 +85,9 @@ public class GameManager : MonoBehaviour
     public void Basket()
     {
         BasketSayısı++;
-        basketSayısıText.text = BasketSayısı.ToString();
+        uIController.BasketText(BasketSayısı);
         PotaDegıs();
-       
+
     }
 
     public void PotaDegıs()
@@ -91,6 +96,8 @@ public class GameManager : MonoBehaviour
         float y = Random.Range(ySpawnNoktaları[0].transform.position.y, xSpawnNoktaları[1].transform.position.y);
         Pota.transform.position= new Vector3(x, y, potaBuyutmeyetenk.transform.position.z);
     }
+
+    
 
     public void Kaybettin()
     {
@@ -102,14 +109,7 @@ public class GameManager : MonoBehaviour
         Pota.transform.localScale = new Vector3(55, 55, 55);
     }
 
-    void ozellikOlussun()
-    {
-        float x = Random.Range(xSpawnNoktaları[0].transform.position.x, xSpawnNoktaları[1].transform.position.x);
-        float y = Random.Range(ySpawnNoktaları[0].transform.position.y, xSpawnNoktaları[1].transform.position.y);
-        potaBuyutmeyetenk.transform.position = new Vector3(x, y, potaBuyutmeyetenk.transform.position.z);
-        GameObject tmp = Instantiate(potaBuyutmeyetenk, potaBuyutmeyetenk.transform.position, Quaternion.identity);
-        Destroy(tmp,5f);
-    }
+    
 
     public void OyunBasladı()
     {
@@ -120,15 +120,19 @@ public class GameManager : MonoBehaviour
 
     void EngelAyarları()
     {
-        if (BasketSayısı== 2)
+        if (BasketSayısı== 5)
         {
             Engeller[0].SetActive(true);
         }
-        else if(BasketSayısı == 4)
+        else if(BasketSayısı == 15)
         {
             Engeller[1].SetActive(true);
         }
-        else if (BasketSayısı == 6)
+        else if (BasketSayısı == 30)
+        {
+            Engeller[2].SetActive(true);
+        }
+        else if (BasketSayısı == 60)
         {
             Engeller[2].SetActive(true);
         }

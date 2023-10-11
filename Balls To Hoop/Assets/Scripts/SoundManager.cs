@@ -16,14 +16,16 @@ public class SoundManager : MonoBehaviour
 
     public void SekmeSesCal()
     {
-        float rnd = Random.Range(.5f, 1);
-        Sekme.pitch = 2;
+        float rnd = Random.Range(.6f, 1f);
+        Sekme.pitch = rnd;
         Sekme.Play();
         
     }
 
     public void PotayaGırısCal()
     {
+        float rnd = Random.Range(.5f, 1f);
+        PotayaGırıs.pitch = rnd;
         PotayaGırıs.Play();
     }
 }
