@@ -5,6 +5,21 @@ using UnityEngine;
 public class Top : MonoBehaviour
 {
     [SerializeField] private GameManager _Gamemanager;
+
+    Rigidbody rb;
+    private void Start()
+    {
+
+        rb = GetComponent<Rigidbody>();
+        
+    }
+
+    public void YerCekimiAc()
+    {
+        rb.useGravity = true;
+    }
+
+   
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("basket"))

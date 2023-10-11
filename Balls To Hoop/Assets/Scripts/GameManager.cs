@@ -14,73 +14,67 @@ public class GameManager : MonoBehaviour
     [SerializeField]private GameObject potaBuyutmeyetenk;
     [SerializeField] private GameObject[] xSpawnNoktaları;
     [SerializeField] private GameObject[] ySpawnNoktaları;
+    [SerializeField] private GameObject[] Engeller;
+
+
+    [Header("-----TOP OBJELERİ")]
+    [SerializeField] private Material[] topMateryalleri;
+
+
     int BasketSayısı;
     public GameObject Top;
     Rigidbody toprb;
     public float Uygulanacakguc;
 
+    public UIController uIController;
+    public static GameManager instance;
+    public bool oyunBasladı = false;
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         
-        InvokeRepeating("ozellikOlussun", 3f,6f);
-
         toprb = Top.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-
-        if (Input.GetMouseButtonDown(0))
+        if (oyunBasladı)
         {
-            Vector3 mousePos = Input.mousePosition;
-            Vector3 mouseOnScreen = Camera.main.ScreenToWorldPoint(mousePos);
-            
-            if (mousePos.x<Screen.width/2)
+            if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("EKRANIN SOLUNDA__"+mousePos.x + "___ " + Screen.width/2);
-                //left -70
-                float solAcı = 50;
-                toprb.AddForce(new Vector3(solAcı, 90, 0) * Uygulanacakguc, ForceMode.Force);
-            }
-            else if(mousePos.x>Screen.width / 2)
-            {
-                //right 70
-                Debug.Log("EKRANIN SAĞINDA" + mousePos.x + "___ " + Screen.width/2);
-                float sagAcı = -50;
-                toprb.AddForce(new Vector3(sagAcı, 90, 0) * Uygulanacakguc, ForceMode.Force);
-            }
-            else
-            {
-                toprb.AddForce(new Vector3(0, 90, 0) * Uygulanacakguc, ForceMode.Force);
+                Vector3 mousePos = Input.mousePosition;
+                Vector3 mouseOnScreen = Camera.main.ScreenToWorldPoint(mousePos);
+
+                if (mousePos.x < Screen.width / 2)
+                {
+
+                    //left -70
+                    float solAcı = 50;
+                    toprb.AddForce(new Vector3(solAcı, 90, 0) * Uygulanacakguc, ForceMode.Force);
+                }
+                else if (mousePos.x > Screen.width / 2)
+                {
+                    //right 70
+
+                    float sagAcı = -50;
+                    toprb.AddForce(new Vector3(sagAcı, 90, 0) * Uygulanacakguc, ForceMode.Force);
+                }
+                else
+                {
+                    toprb.AddForce(new Vector3(0, 90, 0) * Uygulanacakguc, ForceMode.Force);
+                }
+
+
+
             }
 
-            
-            
+            //EngelAyarları();
         }
 
-        /*if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            if (platform.transform.position.x>-1f)
-            {
-                platform.transform.position = Vector3.Lerp(platform.transform.position, new Vector3(
-                platform.transform.position.x - .3f,
-                platform.transform.position.y,
-                platform.transform.position.z), .050f);
-            }
-            
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            if (platform.transform.position.x < 1f)
-            {
-                platform.transform.position = Vector3.Lerp(platform.transform.position, new Vector3(
-                platform.transform.position.x + .3f,
-                platform.transform.position.y,
-                platform.transform.position.z), .050f);
-
-            }
-            
-        }*/
+  
     }
 
     public void Basket()
@@ -115,5 +109,33 @@ public class GameManager : MonoBehaviour
         potaBuyutmeyetenk.transform.position = new Vector3(x, y, potaBuyutmeyetenk.transform.position.z);
         GameObject tmp = Instantiate(potaBuyutmeyetenk, potaBuyutmeyetenk.transform.position, Quaternion.identity);
         Destroy(tmp,5f);
+    }
+
+    public void OyunBasladı()
+    {
+        oyunBasladı = true;
+        Top.GetComponent<Top>().gameObject.GetComponent<Rigidbody>().useGravity = true;
+        uIController.TapToStartButonu.SetActive(false);
+    }
+
+    void EngelAyarları()
+    {
+        if (BasketSayısı== 2)
+        {
+            Engeller[0].SetActive(true);
+        }
+        else if(BasketSayısı == 4)
+        {
+            Engeller[1].SetActive(true);
+        }
+        else if (BasketSayısı == 6)
+        {
+            Engeller[2].SetActive(true);
+        }
+    }
+
+    void TopMateryaliKontrol()
+    {
+        //playerpref kontrolü ile  topun satın alınmış materyali tespit edilecek;
     }
 }
