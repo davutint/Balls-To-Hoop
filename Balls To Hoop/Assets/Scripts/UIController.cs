@@ -14,10 +14,12 @@ public class UIController : MonoBehaviour
 
     public GameObject PauseMenuPanel;
     public static UIController instance;
-
+    
     private void Awake()
     {
         instance = this;
+       
+        
     }
 
 
@@ -37,7 +39,7 @@ public class UIController : MonoBehaviour
         GameManager.instance.oyunBasladı = false;
     }
 
-
+    
 
     public void SesAyarla()
     {

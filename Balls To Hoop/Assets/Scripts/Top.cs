@@ -8,6 +8,7 @@ public class Top : MonoBehaviour
 
     Rigidbody rb;
     int para;
+    
     private void Start()
     {
         para = 0; //playerprefs ile alacağız daha sonra
@@ -33,11 +34,34 @@ public class Top : MonoBehaviour
             _Gamemanager.Kaybettin();
         }
 
-        if (other.CompareTag("Para"))
+        if (other.CompareTag("mavielmas"))
         {
+            other.GetComponent<paraScript>().ElmasEfektOynat();
             other.GetComponent<paraScript>().killtween();
+            other.GetComponent<paraScript>().ElmasTextSpawn();
             Destroy(other.gameObject);
             para += 10;
+            SoundManager.instance.ParaToplaCal();
+            UIController.instance.ParaText(para);
+        }
+        if (other.CompareTag("yesilelmas"))
+        {
+            other.GetComponent<paraScript>().ElmasEfektOynat();
+            other.GetComponent<paraScript>().killtween();
+            other.GetComponent<paraScript>().ElmasTextSpawn();
+            Destroy(other.gameObject);
+            para += 20;
+            SoundManager.instance.ParaToplaCal();
+            UIController.instance.ParaText(para);
+        }
+        if (other.CompareTag("pembeelmas"))
+        {
+            other.GetComponent<paraScript>().ElmasEfektOynat();
+            other.GetComponent<paraScript>().killtween();
+            other.GetComponent<paraScript>().ElmasTextSpawn();
+            Destroy(other.gameObject);
+            para += 30;
+            SoundManager.instance.ParaToplaCal();
             UIController.instance.ParaText(para);
         }
     }

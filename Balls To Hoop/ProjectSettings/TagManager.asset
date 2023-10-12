@@ -9,6 +9,10 @@ TagManager:
   - Top
   - LavaBall
   - Para
+  - FxTemporaire
+  - yesilelmas
+  - pembeelmas
+  - mavielmas
   layers:
   - Default
   - TransparentFX

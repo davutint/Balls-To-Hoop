@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource Sekme;
     public AudioSource PotayaGırıs;
     public AudioSource OyunSesi;
+    public AudioSource ParaTopla;
 
 
     private void Awake()
@@ -28,5 +29,11 @@ public class SoundManager : MonoBehaviour
         float rnd = Random.Range(.5f, 1f);
         PotayaGırıs.pitch = rnd;
         PotayaGırıs.Play();
+    }
+
+    public void ParaToplaCal()
+    {
+        
+        ParaTopla.Play();
     }
 }

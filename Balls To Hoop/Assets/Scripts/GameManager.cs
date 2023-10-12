@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private float nesneSpawnSuresi1, nesneSpawnSuresi2;
     private float waitTime;
-    public GameObject ParaObj;
+    public GameObject[] Elmaslar;
     private void Awake()
     {
         instance = this;
@@ -104,7 +104,9 @@ public class GameManager : MonoBehaviour
 
             Vector3 poz = new Vector3(x, y, 0);
 
-            GameObject tmp = Instantiate(ParaObj, poz, Quaternion.identity);
+            int rdn = Random.Range(0, 3);
+
+            Instantiate(Elmaslar[rdn], poz, Quaternion.identity);
             
             waitTime = Random.Range(nesneSpawnSuresi1, nesneSpawnSuresi2);
             timer = 0;
