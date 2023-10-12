@@ -7,9 +7,10 @@ public class Top : MonoBehaviour
     [SerializeField] private GameManager _Gamemanager;
 
     Rigidbody rb;
+    int para;
     private void Start()
     {
-
+        para = 0; //playerprefs ile alacağız daha sonra
         rb = GetComponent<Rigidbody>();
         
     }
@@ -30,6 +31,14 @@ public class Top : MonoBehaviour
         else if (other.CompareTag("oyunbitti"))
         {
             _Gamemanager.Kaybettin();
+        }
+
+        if (other.CompareTag("Para"))
+        {
+            other.GetComponent<paraScript>().killtween();
+            Destroy(other.gameObject);
+            para += 10;
+            UIController.instance.ParaText(para);
         }
     }
     private void OnCollisionEnter(Collision collision)

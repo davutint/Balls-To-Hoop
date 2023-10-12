@@ -5,12 +5,14 @@ using UnityEngine;
 public class UstPota : MonoBehaviour
 {
     public GameObject PotaControl;
-    public ParticleSystem party;
+    public GameObject PatlamaEfektiObj;
     private void OnTriggerEnter(Collider other)
     {
         PotaControl.SetActive(false);
-        party.Play();
-       
+        GameObject tmp = Instantiate(PatlamaEfektiObj, transform.position, Quaternion.identity);
+        ParticleSystem tmpparty = tmp.GetComponent<ParticleSystem>();
+        float tm = tmpparty.main.duration;
+        Destroy(tmp, tm);
     }
     private void OnTriggerExit(Collider other)
     {

@@ -22,21 +22,28 @@ public class GameManager : MonoBehaviour
 
 
     int BasketSayısı;
-    public GameObject Top;
+    private GameObject Top;
     Rigidbody toprb;
     public float Uygulanacakguc;
 
     public UIController uIController;
     public static GameManager instance;
     public bool oyunBasladı = false;
+    float timer = 0;
+
+    [SerializeField] private float nesneSpawnSuresi1, nesneSpawnSuresi2;
+    private float waitTime;
+    public GameObject ParaObj;
     private void Awake()
     {
         instance = this;
+        Top = GameObject.FindGameObjectWithTag("LavaBall");
     }
     private void Start()
     {
-        
+       
         toprb = Top.GetComponent<Rigidbody>();
+        waitTime = Random.Range(nesneSpawnSuresi1, nesneSpawnSuresi2);
     }
 
     private void Update()
@@ -46,7 +53,7 @@ public class GameManager : MonoBehaviour
         {
 
 
-
+            ParaSpawn();
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -80,6 +87,29 @@ public class GameManager : MonoBehaviour
         }
 
   
+    }
+
+    void ParaSpawn()
+    {
+        
+        timer += Time.deltaTime;
+        if (timer > waitTime)
+        {
+            
+            float x = Random.Range(xSpawnNoktaları[0].transform.position.x
+                , ySpawnNoktaları[0].transform.position.y);
+
+            float y = Random.Range(xSpawnNoktaları[0].transform.position.y
+                , ySpawnNoktaları[0].transform.position.y);
+
+            Vector3 poz = new Vector3(x, y, 0);
+
+            GameObject tmp = Instantiate(ParaObj, poz, Quaternion.identity);
+            
+            waitTime = Random.Range(nesneSpawnSuresi1, nesneSpawnSuresi2);
+            timer = 0;
+        }
+
     }
 
     public void Basket()
@@ -120,19 +150,19 @@ public class GameManager : MonoBehaviour
 
     void EngelAyarları()
     {
-        if (BasketSayısı== 5)
+        if (BasketSayısı== 2)
         {
             Engeller[0].SetActive(true);
         }
-        else if(BasketSayısı == 15)
+        else if(BasketSayısı == 3)
         {
             Engeller[1].SetActive(true);
         }
-        else if (BasketSayısı == 30)
+        else if (BasketSayısı == 4)
         {
             Engeller[2].SetActive(true);
         }
-        else if (BasketSayısı == 60)
+        else if (BasketSayısı == 5)
         {
             Engeller[2].SetActive(true);
         }
