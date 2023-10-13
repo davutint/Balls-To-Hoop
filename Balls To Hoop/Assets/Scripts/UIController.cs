@@ -14,7 +14,10 @@ public class UIController : MonoBehaviour
 
     public GameObject PauseMenuPanel;
     public static UIController instance;
-    
+
+    public TextMeshProUGUI yüksekSkoreText;
+    public TextMeshProUGUI oyunSonuKazanılan;
+
     private void Awake()
     {
         instance = this;
@@ -22,6 +25,20 @@ public class UIController : MonoBehaviour
         
     }
 
+    public void BaslangıcParaText()
+    {
+        _ParaText.text = PlayerPrefs.GetInt("Para").ToString();
+    }
+
+    public void OyunSonuKazanılanParaText()
+    {
+        oyunSonuKazanılan.text = "You Earned  :"+GameManager.instance.ParaKazanmaMiktarı().ToString()+" $";
+    }
+
+    public void YüksekSkoreTextGuncelle(int yeniskore)
+    {
+        yüksekSkoreText.text = yeniskore.ToString();
+    }
 
     public void OyunaDon()
     {

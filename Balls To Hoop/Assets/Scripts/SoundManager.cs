@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
     public AudioSource PotayaGırıs;
     public AudioSource OyunSesi;
     public AudioSource ParaTopla;
+    public AudioSource Nice;
 
 
     private void Awake()
@@ -35,5 +36,11 @@ public class SoundManager : MonoBehaviour
     {
         
         ParaTopla.Play();
+    }
+
+    public void NiceSesCal()
+    {
+
+        Nice.Play();
     }
 }

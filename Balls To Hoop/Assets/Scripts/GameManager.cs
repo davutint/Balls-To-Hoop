@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using DG.Tweening;
 public class GameManager : MonoBehaviour
 {
     [Header("-----UI  OBJELERİ")]
     [SerializeField] private TextMeshProUGUI basketSayısıText;
+    public GameObject GameOverPanel;
 
     [Header("-----LEVEL TEMEL OBJELERİ")]
     [SerializeField] private GameObject Pota;
@@ -34,16 +36,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float nesneSpawnSuresi1, nesneSpawnSuresi2;
     private float waitTime;
     public GameObject[] Elmaslar;
+    public GameObject NiceEfektObj;
+    public int yüksekSkore;
+    public int Para;
+    Top topScript;
     private void Awake()
     {
         instance = this;
-        Top = GameObject.FindGameObjectWithTag("LavaBall");
+        Top = GameObject.FindGameObjectWithTag("Top");
+        yüksekSkore = PlayerPrefs.GetInt("yüksekSkore",0);
+        Para= PlayerPrefs.GetInt("Para", 0);
     }
     private void Start()
     {
-       
+        //yüksekskore texti güncelle bunun altına
         toprb = Top.GetComponent<Rigidbody>();
+        topScript = Top.GetComponent<Top>();
         waitTime = Random.Range(nesneSpawnSuresi1, nesneSpawnSuresi2);
+        uIController.BaslangıcParaText();
     }
 
     private void Update()
@@ -89,6 +99,25 @@ public class GameManager : MonoBehaviour
   
     }
 
+    public void NiceSpawn(int basket)
+    {
+        if (basket % 2 == 0)
+        {
+            float x = Random.Range(-1f, 1f);
+            float y = Random.Range(1f, 2f);
+            Vector3 poz = new Vector3(x, y, 0);
+            GameObject tmp = Instantiate(NiceEfektObj, poz, Quaternion.identity);
+            SoundManager.instance.NiceSesCal();
+            BasketTextAnim();
+            //Destroy(tmp, .9f);
+        }
+    }
+
+    public void BasketTextAnim()
+    {
+        UIController.instance.BasketSayısıText.transform.DOShakeScale(1, 1, 5, 20);
+    }
+
     void ParaSpawn()
     {
         
@@ -118,7 +147,9 @@ public class GameManager : MonoBehaviour
     {
         BasketSayısı++;
         uIController.BasketText(BasketSayısı);
+        NiceSpawn(BasketSayısı);
         PotaDegıs();
+        HighScoreUpdate(BasketSayısı);
 
     }
 
@@ -134,6 +165,10 @@ public class GameManager : MonoBehaviour
     public void Kaybettin()
     {
         Debug.Log("KAYBETTİN");
+        GameOverPanel.SetActive(true);
+        oyunBasladı = false;
+        Time.timeScale = 0;
+        UIController.instance.OyunSonuKazanılanParaText();
     }
 
     public void PotaBüyüt()
@@ -170,6 +205,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public int ParaKazanmaMiktarı()
+    {
+        int para = Para;//oyun basında tuttuğun mevcut parayı oyun sonundaki para ile karşılaştır
+        int oyunSonupara = PlayerPrefs.GetInt("Para");
+
+        int kazanılanMiktar = Mathf.Abs(oyunSonupara - para);
+
+        return kazanılanMiktar; //oyun sonu panelinde uıda yazacak kısım;
+    }
+
+    
+
+    public void HighScoreUpdate(int yeniSkor)
+    {
+        
+        if (yeniSkor > yüksekSkore)
+        {
+            yüksekSkore = yeniSkor;
+            PlayerPrefs.SetInt("yüksekSkore", yüksekSkore);
+            UIController.instance.YüksekSkoreTextGuncelle(yüksekSkore);
+        }
+    }
     void TopMateryaliKontrol()
     {
         //playerpref kontrolü ile  topun satın alınmış materyali tespit edilecek;

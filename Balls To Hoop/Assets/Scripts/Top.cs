@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Top : MonoBehaviour
 {
-    [SerializeField] private GameManager _Gamemanager;
-
+    
     Rigidbody rb;
     int para;
     
@@ -26,12 +25,12 @@ public class Top : MonoBehaviour
     {
         if (other.CompareTag("basket"))
         {
-            _Gamemanager.Basket();
+            GameManager.instance.Basket();
             SoundManager.instance.PotayaGırısCal();
         }
         else if (other.CompareTag("oyunbitti"))
         {
-            _Gamemanager.Kaybettin();
+            GameManager.instance.Kaybettin();
         }
 
         if (other.CompareTag("mavielmas"))
@@ -43,6 +42,7 @@ public class Top : MonoBehaviour
             para += 10;
             SoundManager.instance.ParaToplaCal();
             UIController.instance.ParaText(para);
+            ParaGuncelle();
         }
         if (other.CompareTag("yesilelmas"))
         {
@@ -53,6 +53,7 @@ public class Top : MonoBehaviour
             para += 20;
             SoundManager.instance.ParaToplaCal();
             UIController.instance.ParaText(para);
+            ParaGuncelle();
         }
         if (other.CompareTag("pembeelmas"))
         {
@@ -63,10 +64,17 @@ public class Top : MonoBehaviour
             para += 30;
             SoundManager.instance.ParaToplaCal();
             UIController.instance.ParaText(para);
+            ParaGuncelle();
         }
+    }
+    public void ParaGuncelle()
+    {
+        PlayerPrefs.SetInt("Para", para);
     }
     private void OnCollisionEnter(Collision collision)
     {
         SoundManager.instance.SekmeSesCal();
     }
+
+    
 }
