@@ -10,4 +10,6 @@ public class AnaMenuController : MonoBehaviour
     {
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * .5f);// skyboxu hareket ettiriyoruz;
     }
+
+
 }

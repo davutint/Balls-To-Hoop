@@ -1,26 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class MarketObjeManager : MonoBehaviour
 {
     public GameObject[] MarketObjeleri;
+    private int objenumarası;
 
-    public void SagaGit(int objenumarası)// bu kod patladı
+    private void Start()
     {
-        if (objenumarası < MarketObjeleri.Length - 1)
+        for (int i = 0; i < MarketObjeleri.Length; i++)
         {
-            MarketObjeleri[objenumarası].gameObject.SetActive(false);
-            MarketObjeleri[objenumarası + 1].gameObject.SetActive(true);
+            if (MarketObjeleri[i].activeSelf)
+            {
+                objenumarası = MarketObjeleri[i].GetComponent<marketContent>().objid;
+            }
         }
     }
 
-    public void SolaGit(int objenumarası)
+    public void SagaGit()// bu kod patladı
     {
-        if (objenumarası >= MarketObjeleri.Length - 1&&objenumarası>=0)
+        int objnum=objenumarası;
+        
+        
+        if (objnum < MarketObjeleri.Length - 1)
         {
-            MarketObjeleri[objenumarası].gameObject.SetActive(false);
-            MarketObjeleri[objenumarası - 1].gameObject.SetActive(true);
+           
+            MarketObjeleri[objnum].gameObject.SetActive(false);
+            objnum++;
+            MarketObjeleri[objnum].gameObject.transform.DOMoveX(0, .3f).SetEase(Ease.InOutBack).From();
+            MarketObjeleri[objnum].gameObject.SetActive(true);
+
+            objenumarası = objnum;
+            Debug.Log(" OBJE NUMARASI  :" + objenumarası);
+        }
+    }
+
+    public void SolaGit()
+    {
+        int objnum = objenumarası;
+
+        if (objnum > 0)
+        {
+            
+            MarketObjeleri[objnum].gameObject.SetActive(false);
+            objnum--;
+            MarketObjeleri[objnum ].gameObject.transform.DOMoveX(0, .3f).SetEase(Ease.InOutBack).From();
+            MarketObjeleri[objnum].gameObject.SetActive(true);
+            objenumarası = objnum;
+            Debug.Log(" OBJE NUMARASI  :" + objenumarası);
         }
     }
 }

@@ -32,7 +32,7 @@ public class UIController : MonoBehaviour
 
     public void OyunSonuKazanılanParaText()
     {
-        oyunSonuKazanılan.text = "You Earned  :"+GameManager.instance.ParaKazanmaMiktarı().ToString()+" $";
+        oyunSonuKazanılan.text = GameManager.instance.ParaKazanmaMiktarı().ToString()+" $";
     }
 
     public void YüksekSkoreTextGuncelle(int yeniskore)

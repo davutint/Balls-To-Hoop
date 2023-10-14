@@ -7,6 +7,7 @@ public class Top : MonoBehaviour
     
     Rigidbody rb;
     int para;
+    public int basketDegeri;
     
     private void Start()
     {
@@ -25,7 +26,7 @@ public class Top : MonoBehaviour
     {
         if (other.CompareTag("basket"))
         {
-            GameManager.instance.Basket();
+            GameManager.instance.Basket(basketDegeri);
             SoundManager.instance.PotayaGırısCal();
         }
         else if (other.CompareTag("oyunbitti"))

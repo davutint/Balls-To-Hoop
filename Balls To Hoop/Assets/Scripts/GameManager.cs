@@ -21,14 +21,14 @@ public class GameManager : MonoBehaviour
 
     [Header("-----TOP OBJELERİ")]
     [SerializeField] private Material[] topMateryalleri;
-
+    public GameObject LavaBall, NormalBall;
 
     int BasketSayısı;
     private GameObject Top;
     Rigidbody toprb;
     public float Uygulanacakguc;
 
-    public UIController uIController;
+    
     public static GameManager instance;
     public bool oyunBasladı = false;
     float timer = 0;
@@ -40,8 +40,26 @@ public class GameManager : MonoBehaviour
     public int yüksekSkore;
     public int Para;
     Top topScript;
+
+    int topType;
+
     private void Awake()
     {
+        topType = PlayerPrefs.GetInt("SeçilenTop");
+
+        switch (topType)
+        {
+            case 0:
+                NormalBall.SetActive(true);
+                break;
+            case 1:
+                LavaBall.SetActive(true);
+                break;
+            default:
+                NormalBall.SetActive(true);
+                break;
+        }
+
         instance = this;
         Top = GameObject.FindGameObjectWithTag("Top");
         yüksekSkore = PlayerPrefs.GetInt("yüksekSkore",0);
@@ -53,7 +71,7 @@ public class GameManager : MonoBehaviour
         toprb = Top.GetComponent<Rigidbody>();
         topScript = Top.GetComponent<Top>();
         waitTime = Random.Range(nesneSpawnSuresi1, nesneSpawnSuresi2);
-        uIController.BaslangıcParaText();
+        UIController.instance.BaslangıcParaText();
     }
 
     private void Update()
@@ -143,13 +161,16 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void Basket()
+    public void Basket(int basketDegeri)
     {
-        BasketSayısı++;
-        uIController.BasketText(BasketSayısı);
+       
+        BasketSayısı+=Top.GetComponent<Top>().basketDegeri;
+        UIController.instance.BasketText(BasketSayısı);
         NiceSpawn(BasketSayısı);
         PotaDegıs();
-        HighScoreUpdate(BasketSayısı);
+        int yeniYüksekScore = YeniYuksekSkoreTespit(BasketSayısı);
+
+        UIController.instance.YüksekSkoreTextGuncelle(yeniYüksekScore);
 
     }
 
@@ -182,7 +203,7 @@ public class GameManager : MonoBehaviour
     {
         oyunBasladı = true;
         Top.GetComponent<Top>().gameObject.GetComponent<Rigidbody>().useGravity = true;
-        uIController.TapToStartButonu.SetActive(false);
+        UIController.instance.TapToStartButonu.SetActive(false);
     }
 
     void EngelAyarları()
@@ -217,15 +238,22 @@ public class GameManager : MonoBehaviour
 
     
 
-    public void HighScoreUpdate(int yeniSkor)
+    public int YeniYuksekSkoreTespit(int yeniSkor)
     {
-        
+        int yeniYüksekSkore;
+
         if (yeniSkor > yüksekSkore)
         {
             yüksekSkore = yeniSkor;
             PlayerPrefs.SetInt("yüksekSkore", yüksekSkore);
-            UIController.instance.YüksekSkoreTextGuncelle(yüksekSkore);
+            yeniYüksekSkore = yüksekSkore;
+            return yeniYüksekSkore;
+            
         }
+        else
+            return yüksekSkore;
+
+        
     }
     void TopMateryaliKontrol()
     {
