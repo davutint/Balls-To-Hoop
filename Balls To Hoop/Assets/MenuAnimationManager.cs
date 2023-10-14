@@ -7,10 +7,6 @@ public class MenuAnimationManager : MonoBehaviour
 {
     public Transform  PlayButton, QuitObj, MarketObj,SettingsObj,OyunIsmiObj;
     private int OyuncununParası;
-    public GameObject[] MarketObjeleri;
-
-
-    
     
     private string isLavaBallPurchased = "isLavaBallPurchased";
     private string SecılenTop = "SeçilenTop";
@@ -54,14 +50,19 @@ public class MenuAnimationManager : MonoBehaviour
     public void LavaSatınAl(int ObjeDegeri)
     {
         
-        if (OyuncununParası>=ObjeDegeri)
+        if (OyuncununParası>=ObjeDegeri)//oyuncu tekrar satın alamasın diye bir kontrol daha yap
         {
             OyuncununParası -= ObjeDegeri;
             PlayerPrefs.SetInt("Para", OyuncununParası);
-            PlayerPrefs.SetString(isLavaBallPurchased, "true");//LavaBall Satın alındı ve birdaha alınamaz;
+            PlayerPrefs.SetString(isLavaBallPurchased,"true");//LavaBall Satın alındı ve birdaha alınamaz;
             MarketObjeleriSatınAlımKontrol();
             Debug.Log("Satın alma Gerçekleşti  "+OyuncununParası);
+            Debug.Log(PlayerPrefs.GetString(isLavaBallPurchased));
             
+        }
+        else
+        {
+            Debug.Log("Paran yetmiyor");
         }
     }
 
@@ -94,15 +95,15 @@ public class MenuAnimationManager : MonoBehaviour
 
     public void MarketObjeleriSatınAlımKontrol()
     {
-        isLavaBallPurchased = PlayerPrefs.GetString(isLavaBallPurchased);
-        string Lavasatınalındımı = isLavaBallPurchased;
-        if (Lavasatınalındımı=="true")
+        Debug.Log(isLavaBallPurchased);
+
+        
+        if (PlayerPrefs.GetString(isLavaBallPurchased)== "true")
         {
             //satın alma butonu yerine select butonu gelecek;
             LavaSatınAlButonObj.SetActive(false);
             LavaSelectObj.SetActive(true);
         }
-        
 
     }
     
