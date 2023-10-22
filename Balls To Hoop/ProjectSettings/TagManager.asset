@@ -13,6 +13,8 @@ TagManager:
   - yesilelmas
   - pembeelmas
   - mavielmas
+  - engel
+  - kabak
   layers:
   - Default
   - TransparentFX

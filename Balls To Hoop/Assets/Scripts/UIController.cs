@@ -3,27 +3,159 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
+    public static UIController instance;
+
+
     public GameObject TapToStartButonu;
-    public TextMeshProUGUI _ParaText;
-    public TextMeshProUGUI BasketSayısıText;
+    [Header("-----SLIDER  OBJELERİ")]
     public Slider AnaSesSlider;
     public Slider EfektSesSlider;
 
+    [Header("-----GAMEOVER VE PAUSEMENU  OBJELERİ")]
     public GameObject PauseMenuPanel;
-    public static UIController instance;
+    public GameObject GameOverMenuPanel;
 
+
+    [Header("-----TEXTMESHPRO  OBJELERİ")]
+    public TextMeshProUGUI _ParaText;
+    public TextMeshProUGUI BasketSayısıText;
     public TextMeshProUGUI yüksekSkoreText;
     public TextMeshProUGUI oyunSonuKazanılan;
 
+    [Header("-----BASLANGICANİMASYONPANELİ  OBJELERİ")]
+    public Image baslangicAnimasyonPaneli;
+    float oyunsesi, efektsesi;
     private void Awake()
     {
         instance = this;
-       
+        BaslangıcSesDegerleriniCek();
+
+
+    }
+
+    private void Start()
+    {
+        Time.timeScale = 1;
+        baslangicAnimasyonPaneli.DOFade(0, 1f);
+        Debug.Log("Efekt playerprefs Değeri Oyun Sahnesi " + PlayerPrefs.GetFloat("Efekt"));
+        Debug.Log("OyunSesi playerprefs Değeri Oyun Sahnesi " + PlayerPrefs.GetFloat("OyunSesi"));
+        SesAyarla();
+    }
+
+
+    public void AnaMenuyeDon()
+    {
+        SoundManager.instance.ButtonClickSesCal();
+        SesAyarla();
+        SceneManager.LoadScene(0);
+
+    }
+
+    public void BaslangıcSesDegerleriniCek()
+    {
+        efektsesi = PlayerPrefs.GetFloat("Efekt");
+
+        oyunsesi = PlayerPrefs.GetFloat("OyunSesi");
+
+        AnaSesSlider.value = oyunsesi;
+        EfektSesSlider.value = efektsesi;
+
         
     }
+
+    public void SesAyarla()//bunları playerprefs olarak ayarla sonra ana menuden çek/hem baslangıçta hem ayarladıktan sonra güncelle
+    {
+        
+        SoundManager.instance.OyunSesi.volume = AnaSesSlider.value;//su anki slider degeri ses degerine esit
+        SoundManager.instance.Sekme.volume = EfektSesSlider.value;
+        SoundManager.instance.PotayaGırıs.volume = EfektSesSlider.value;
+        SoundManager.instance.Nice.volume = EfektSesSlider.value;
+
+        oyunsesi = AnaSesSlider.value;
+        efektsesi = EfektSesSlider.value;
+        SesPlayerPrefsYap();
+    }
+
+    public void SesPlayerPrefsYap()
+    {
+        PlayerPrefs.SetFloat("Efekt", efektsesi);
+        PlayerPrefs.SetFloat("OyunSesi", oyunsesi);
+    }
+
+
+
+
+    #region Butonlar
+
+    public void PauseMenuAc()
+    {
+        SoundManager.instance.ButtonClickSesCal();
+        AnaSesSlider.value = oyunsesi;
+        EfektSesSlider.value = efektsesi;
+        PauseMenuPanel.transform.DOLocalMoveX(0, 0);
+        PauseMenuPanel.SetActive(true);//dotween ile sahne dışına götür
+        Time.timeScale = 0;
+        GameManager.instance.oyunBasladı = false;
+    }
+
+    public void OyunaDon()
+    {
+        SoundManager.instance.ButtonClickSesCal();
+        SesAyarla();
+        //PauseMenuPanel.SetActive(false);//dotween ile hareket ettir sahneye çağır
+        PauseMenuPanel.transform.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
+        Time.timeScale = 1;
+        GameManager.instance.oyunBasladı = true;
+    }
+
+    public void GameOverMenuGetir()
+    {
+        GameOverMenuPanel.SetActive(true);
+        GameOverMenuPanel.transform.DOLocalMoveX(0, 1).SetEase(Ease.InOutBack);
+    }
+    public void GameOverMenuGotur()
+    {
+        GameOverMenuPanel.SetActive(false);
+        GameOverMenuPanel.transform.DOLocalMoveX(-1400, .3f).SetEase(Ease.InOutBack);
+
+    }
+
+    public void QuitGame()
+    {
+        SoundManager.instance.ButtonClickSesCal();
+        Application.Quit();
+    }
+
+
+
+    public void RestartGame()
+    {
+        SoundManager.instance.ButtonClickSesCal();
+        SceneManager.LoadScene(1);
+    }
+    #endregion
+
+    #region TextRegion
+
+    public void ParaText(int _Para)
+    {
+
+        _ParaText.text = _Para.ToString();
+    }
+
+    public void BasketText(int basket)
+    {
+
+        BasketSayısıText.text = basket.ToString();
+
+
+    }
+
 
     public void BaslangıcParaText()
     {
@@ -32,7 +164,7 @@ public class UIController : MonoBehaviour
 
     public void OyunSonuKazanılanParaText()
     {
-        oyunSonuKazanılan.text = GameManager.instance.ParaKazanmaMiktarı().ToString()+" $";
+        oyunSonuKazanılan.text = "+"+GameManager.instance.ParaKazanmaMiktarı().ToString() + " $";
     }
 
     public void YüksekSkoreTextGuncelle(int yeniskore)
@@ -40,49 +172,5 @@ public class UIController : MonoBehaviour
         yüksekSkoreText.text = yeniskore.ToString();
     }
 
-    public void OyunaDon()
-    {
-        SesAyarla();
-        PauseMenuPanel.SetActive(false);
-        Time.timeScale = 1;
-        GameManager.instance.oyunBasladı = true;
-    }
-    public void PauseMenuAc()
-    {
-        AnaSesSlider.value = SoundManager.instance.OyunSesi.volume;
-        EfektSesSlider.value = SoundManager.instance.Sekme.volume;
-        PauseMenuPanel.SetActive(true);
-        Time.timeScale = 0;
-        GameManager.instance.oyunBasladı = false;
-    }
-
-    
-
-    public void SesAyarla()
-    {
-        SoundManager.instance.OyunSesi.volume = AnaSesSlider.value;
-        SoundManager.instance.Sekme.volume = EfektSesSlider.value;
-        SoundManager.instance.PotayaGırıs.volume = EfektSesSlider.value;
-
-    }
-
-    public void AnaMenuDon()
-    {
-        //Oyun sonu ekranında anamenuye dön menusü
-    }
-
-    public void OyundanCık()
-    {
-        //Exit butonu
-    }
-    public void BasketText(int basket)
-    {
-        BasketSayısıText.text = basket.ToString();
-    }
-    public void ParaText(int para)
-    {
-
-        _ParaText.text = para.ToString();
-    }
-
+    #endregion
 }

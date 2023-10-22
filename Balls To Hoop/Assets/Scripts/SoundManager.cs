@@ -5,18 +5,27 @@ using UnityEngine;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
+
     public AudioSource Sekme;
     public AudioSource PotayaGırıs;
     public AudioSource OyunSesi;
     public AudioSource ParaTopla;
     public AudioSource Nice;
+    public AudioSource ButtonClick;
 
 
     private void Awake()
     {
         instance = this;
+
+        //UIController.instance.SesAyarla();
     }
 
+
+    public void ButtonClickSesCal()
+    {
+        ButtonClick.Play();
+    }
     public void SekmeSesCal()
     {
         float rnd = Random.Range(.6f, 1f);
@@ -24,6 +33,9 @@ public class SoundManager : MonoBehaviour
         Sekme.Play();
         
     }
+
+
+    
 
     public void PotayaGırısCal()
     {

@@ -8,11 +8,10 @@ public class GameManager : MonoBehaviour
 {
     [Header("-----UI  OBJELERİ")]
     [SerializeField] private TextMeshProUGUI basketSayısıText;
-    public GameObject GameOverPanel;
+   
 
     [Header("-----LEVEL TEMEL OBJELERİ")]
     [SerializeField] private GameObject Pota;
-    [SerializeField]private GameObject platform;
     [SerializeField]private GameObject potaBuyutmeyetenk;
     [SerializeField] private GameObject[] xSpawnNoktaları;
     [SerializeField] private GameObject[] ySpawnNoktaları;
@@ -21,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     [Header("-----TOP OBJELERİ")]
     [SerializeField] private Material[] topMateryalleri;
-    public GameObject LavaBall, NormalBall;
+    public GameObject LavaBall, NormalBall, PumpkinBall;
 
     int BasketSayısı;
     private GameObject Top;
@@ -38,14 +37,14 @@ public class GameManager : MonoBehaviour
     public GameObject[] Elmaslar;
     public GameObject NiceEfektObj;
     public int yüksekSkore;
-    public int Para;
+    public int oyunSonupara;
     Top topScript;
 
     int topType;
 
     private void Awake()
     {
-        topType = PlayerPrefs.GetInt("SeçilenTop");
+        topType = PlayerPrefs.GetInt("SeçilenTop");   //burayı aktif et daha sonra, balkabağıda ekle
 
         switch (topType)
         {
@@ -55,6 +54,9 @@ public class GameManager : MonoBehaviour
             case 1:
                 LavaBall.SetActive(true);
                 break;
+            case 2:
+                PumpkinBall.SetActive(true);
+                break;
             default:
                 NormalBall.SetActive(true);
                 break;
@@ -63,12 +65,16 @@ public class GameManager : MonoBehaviour
         instance = this;
         Top = GameObject.FindGameObjectWithTag("Top");
         yüksekSkore = PlayerPrefs.GetInt("yüksekSkore",0);
-        Para= PlayerPrefs.GetInt("Para", 0);
+        
     }
     private void Start()
     {
+        oyunSonupara = 0;
         //yüksekskore texti güncelle bunun altına
+       
         toprb = Top.GetComponent<Rigidbody>();
+
+
         topScript = Top.GetComponent<Top>();
         waitTime = Random.Range(nesneSpawnSuresi1, nesneSpawnSuresi2);
         UIController.instance.BaslangıcParaText();
@@ -119,7 +125,7 @@ public class GameManager : MonoBehaviour
 
     public void NiceSpawn(int basket)
     {
-        if (basket % 2 == 0)
+        if (basket % 10 == 0)
         {
             float x = Random.Range(-1f, 1f);
             float y = Random.Range(1f, 2f);
@@ -183,13 +189,23 @@ public class GameManager : MonoBehaviour
 
     
 
-    public void Kaybettin()
+    public void Kaybettin()//burayı reklam izlendiğinde oyunu devam ettirecek şekilde modifiye et
     {
         Debug.Log("KAYBETTİN");
-        GameOverPanel.SetActive(true);
+        UIController.instance.GameOverMenuGetir();//uı controllerda fonksiyon oluşturup onu çalıştır;
         oyunBasladı = false;
-        Time.timeScale = 0;
+        
         UIController.instance.OyunSonuKazanılanParaText();
+    }
+
+    public void ReklamIzleDevamEt()//reklam izletip oyuna devam ettireceğiz;
+    {
+        Top.transform.position = Top.GetComponent<Top>().baslangıcpoz;
+        UIController.instance.GameOverMenuGotur();
+        oyunBasladı = false;
+        Top.GetComponent<Rigidbody>().useGravity = false;//topu baslangıca aldığımızda oyun basladığında son hıza yere
+        Top.GetComponent<Rigidbody>().isKinematic=true;//düşüyordu bu yüzdn bu iki kodu kullanmak zorunda kaldın.
+        UIController.instance.TapToStartButonu.SetActive(true);
     }
 
     public void PotaBüyüt()
@@ -202,7 +218,8 @@ public class GameManager : MonoBehaviour
     public void OyunBasladı()
     {
         oyunBasladı = true;
-        Top.GetComponent<Top>().gameObject.GetComponent<Rigidbody>().useGravity = true;
+        Top.GetComponent<Top>().YerCekimiAc();
+        //Top.GetComponent<Top>().gameObject.GetComponent<Rigidbody>().useGravity = true;
         UIController.instance.TapToStartButonu.SetActive(false);
     }
 
@@ -226,12 +243,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int ParaKazanmaMiktarı()
+    public int ParaKazanmaMiktarı()//bu kod bozuk
     {
-        int para = Para;//oyun basında tuttuğun mevcut parayı oyun sonundaki para ile karşılaştır
-        int oyunSonupara = PlayerPrefs.GetInt("Para");
+        int para = PlayerPrefs.GetInt("Para");//oyun basında tuttuğun mevcut parayı oyun sonundaki para ile karşılaştır
+        //oyun basında bir int belirleyip bunu top scriptinde güncelleyelim sonra kazanılan miktarda bu işlemi yapalım
 
-        int kazanılanMiktar = Mathf.Abs(oyunSonupara - para);
+        int kazanılanMiktar = para-(para-oyunSonupara);
 
         return kazanılanMiktar; //oyun sonu panelinde uıda yazacak kısım;
     }
@@ -255,8 +272,5 @@ public class GameManager : MonoBehaviour
 
         
     }
-    void TopMateryaliKontrol()
-    {
-        //playerpref kontrolü ile  topun satın alınmış materyali tespit edilecek;
-    }
+    
 }

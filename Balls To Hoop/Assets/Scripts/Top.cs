@@ -8,17 +8,58 @@ public class Top : MonoBehaviour
     Rigidbody rb;
     int para;
     public int basketDegeri;
-    
+    SphereCollider sc;
+    public Vector3 baslangıcpoz;
     private void Start()
     {
-        para = 0; //playerprefs ile alacağız daha sonra
+        baslangıcpoz = transform.position;
+        para = PlayerPrefs.GetInt("Para");
         rb = GetComponent<Rigidbody>();
-        
+        sc = GetComponent<SphereCollider>();
     }
 
     public void YerCekimiAc()
     {
-        rb.useGravity = true;
+         
+         rb.useGravity = true;
+         rb.isKinematic = false;
+        /*if (this.gameObject.name=="balkabagitop")
+        {
+            foreach (Rigidbody rig in gameObject.GetComponentsInChildren<Rigidbody>())
+            {
+                rig.useGravity = true;
+            }
+        }*/
+        
+    }
+
+    public void PumpkinParcala()
+    {
+        if (gameObject.name=="balkabagitop")
+        {
+            gameObject.GetComponent<SphereCollider>().enabled = false;
+
+            gameObject.GetComponent<Rigidbody>().useGravity = false;
+            Debug.Log("rb kodunu geçti");
+            Debug.Log("rb kodunu geçti");
+            Debug.Log("Pumpkin parçalamaya girdi");
+            foreach (SphereCollider col in gameObject.GetComponentsInChildren<SphereCollider>())
+            {
+                if (col != null)
+                {
+                    col.enabled = true;
+
+                }
+                else
+                    Debug.Log("Bu Top Balkabağı Topu Değil !");
+                foreach (Rigidbody rig in gameObject.GetComponentsInChildren<Rigidbody>())
+                {
+                    rig.useGravity = true;
+                    rig.isKinematic = false;
+                }
+            }
+        }
+        
     }
 
    
@@ -41,6 +82,7 @@ public class Top : MonoBehaviour
             other.GetComponent<paraScript>().ElmasTextSpawn();
             Destroy(other.gameObject);
             para += 10;
+            GameManager.instance.oyunSonupara += 10;
             SoundManager.instance.ParaToplaCal();
             UIController.instance.ParaText(para);
             ParaGuncelle();
@@ -52,6 +94,7 @@ public class Top : MonoBehaviour
             other.GetComponent<paraScript>().ElmasTextSpawn();
             Destroy(other.gameObject);
             para += 20;
+            GameManager.instance.oyunSonupara += 20;
             SoundManager.instance.ParaToplaCal();
             UIController.instance.ParaText(para);
             ParaGuncelle();
@@ -63,6 +106,7 @@ public class Top : MonoBehaviour
             other.GetComponent<paraScript>().ElmasTextSpawn();
             Destroy(other.gameObject);
             para += 30;
+            GameManager.instance.oyunSonupara += 30;
             SoundManager.instance.ParaToplaCal();
             UIController.instance.ParaText(para);
             ParaGuncelle();
