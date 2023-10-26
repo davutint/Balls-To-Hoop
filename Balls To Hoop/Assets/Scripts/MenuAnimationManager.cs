@@ -10,7 +10,7 @@ public class MenuAnimationManager : MonoBehaviour
 {
     public Transform  PlayButton, QuitObj, MarketObj,SettingsObj,OyunIsmiObj,MevcutParaText;
     private int OyuncununParası;
-    public GameObject LavaBall, NormalBall;
+    public GameObject LavaBall, NormalBall; //pumpkinball ekle
 //    private string isLavaBallPurchased = "isLavaBallPurchased";
     private string SecılenTop = "SeçilenTop";
     public GameObject LavaSatınAlButonObj;
@@ -19,6 +19,8 @@ public class MenuAnimationManager : MonoBehaviour
     int topType;
     public GameObject LavaSelectedBelirt;
     public GameObject NormalSelectedBelirt;
+    //public GameObject PumpkinBallSelectedObj;
+
     private void Awake()
     {
         Time.timeScale = 1;
@@ -37,7 +39,7 @@ public class MenuAnimationManager : MonoBehaviour
                 LavaBall.SetActive(true);
                 LavaSelectedBelirt.SetActive(true);
                 LavaSelectedBelirt.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
-                break;
+                break;//case 2 pumpking eklenecek
             default:
                 NormalBall.SetActive(true);
                 break;
@@ -110,8 +112,10 @@ public class MenuAnimationManager : MonoBehaviour
         }
     }
 
-    public void PumpkinSatınAl(int ObjeDegeri)// IAP ile alınabilir yapacağız.
+    /*public void PumpkinSatınAl(int ObjeDegeri)// IAP ile alınabilir yapacağız.
     {
+        //farklı bir scriptte ıap kurulumunu yap ve o scriptte bu fonksiyonu çağır, burayı ona göre modifiye et
+
         /*AnaMenuSesManager.instance.ClickSesCal();
         string satınalındıMı = PlayerPrefs.GetString("isLavaBallPurchased");
         if (OyuncununParası >= ObjeDegeri)//oyuncu tekrar satın alamasın diye bir kontrol daha yap
@@ -139,8 +143,8 @@ public class MenuAnimationManager : MonoBehaviour
             //Mevcut PAra objesini shakele
             MevcutParaText.DOShakePosition(1, 20, 20);
             Debug.Log("Paran yetmiyor");
-        }*/
-    }
+        }
+    }*/
 
     public void QuitGame()
     {
@@ -196,8 +200,29 @@ public class MenuAnimationManager : MonoBehaviour
         
 
         NormalSelectedBelirt.SetActive(false);
+        //PumpkinBallSelectedObj.SetActive(false); pumpkin ekledikten sonra
         PlayerPrefs.SetInt(SecılenTop, 1);// oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
     }
+    /*public void PumpkinBallSelected()// Bunlar select butonuna atanacak;
+    {
+        AnaMenuSesManager.instance.ClickSesCal();
+        //playerprefs balltype anahtar kelimesine 1 veya 2 atayarak oyun sahnesinden kontrol sağlayacağız;
+        if (!PumpkinBallSelectedObj.activeSelf)
+        {
+            PumpkinBallSelectedObj.SetActive(true);
+            PumpkinBallSelectedObj.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
+        }
+
+        if (PumpkinBallSelectedObj.transform.localPosition.x == 0)
+        {
+            PumpkinBallSelectedObj.transform.DOShakePosition(1, 10, 10);
+        }
+
+
+        NormalSelectedBelirt.SetActive(false);
+        LavaSelectedBelirt.SetActive(false);
+        PlayerPrefs.SetInt(SecılenTop, 2);// oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
+    }*/
 
     public void NormalBallSelected()
     {
@@ -216,6 +241,7 @@ public class MenuAnimationManager : MonoBehaviour
         
         
         LavaSelectedBelirt.SetActive(false);
+        //PumpkinBallSelectedObj.SetActive(false);
         PlayerPrefs.SetInt(SecılenTop, 0);// oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
     }
     // Oyuncunun sahip olduğu satın alınan objeleri kontrol etme
@@ -232,6 +258,13 @@ public class MenuAnimationManager : MonoBehaviour
             LavaSelectObj.SetActive(true);
         }
 
+        if (PlayerPrefs.GetString("isPumpkinBallPurchased") == "true")//bunu pumpkin için kontrol et tekrar
+        {
+            //pumpkin için olanları yazacaksın buraya
+            //satın alma butonu yerine select butonu gelecek;
+            //LavaSatınAlButonObj.SetActive(false);
+            //LavaSelectObj.SetActive(true);
+        }
     }
     
     
