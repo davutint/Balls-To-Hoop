@@ -41,8 +41,12 @@ public class AnaMenuSettings : MonoBehaviour
     }
     private void PlayerPrefsYap()
     {
+
         PlayerPrefs.SetFloat("Efekt", efekt);
         PlayerPrefs.SetFloat("OyunSesi", oyunsesi);
+        Debug.Log(PlayerPrefs.GetFloat("Efekt"));
+        Debug.Log(PlayerPrefs.GetFloat("OyunSesi"));
+
     }
 
 
@@ -57,18 +61,20 @@ public class AnaMenuSettings : MonoBehaviour
         if (!PlayerPrefs.HasKey("Efekt"))
         {
             efekt = 1;
+            EfektSesSlider.value = efekt;
             Debug.Log("Daha Önce Atanmadığı için Değeri 1 oldu Efekt Sesi");
-
+            PlayerPrefs.SetFloat("Efekt", efekt);
         }
         if (!PlayerPrefs.HasKey("OyunSesi"))
         {
             oyunsesi = 1;
+            oyunSesSlider.value = oyunsesi;
             Debug.Log("Daha Önce Atanmadığı için Değeri 1 oldu Oyun Sesi");
-
+            PlayerPrefs.SetFloat("OyunSesi", oyunsesi);
         }
+
         efekt = PlayerPrefs.GetFloat("Efekt");
         oyunsesi = PlayerPrefs.GetFloat("OyunSesi");
-
     }
 
     public void SliderDegeriniAyarla()

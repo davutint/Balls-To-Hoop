@@ -198,7 +198,9 @@ public class GameManager : MonoBehaviour
         UIController.instance.OyunSonuKazanılanParaText();
     }
 
-    public void ReklamIzleDevamEt()//reklam izletip oyuna devam ettireceğiz;
+    
+
+    public void DevamEt()//reklam izletip oyuna devam ettireceğiz;//bunu rewarded tamamlanınca instancedan çağır
     {
         Top.transform.position = Top.GetComponent<Top>().baslangıcpoz;
         UIController.instance.GameOverMenuGotur();

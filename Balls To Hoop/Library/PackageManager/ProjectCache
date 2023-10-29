@@ -5,21 +5,81 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638330790050000000
-    m_Hash: 320126806
+      ticks: 638341465540000000
+    m_Hash: 1841337405
   m_LockFileStatus:
     m_FilePath: /Users/davutinat/Documents/GitHub/Balls To Hoop/Balls To Hoop/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638330790050000000
-    m_Hash: 1281720321
+      ticks: 638341465540000000
+    m_Hash: 2346171697
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
   m_Packages:
     m_ResolvedPackages:
+    - packageId: com.unity.ads.ios-support@1.2.0
+      testable: 0
+      isDirectDependency: 1
+      version: 1.2.0
+      source: 1
+      resolvedPath: /Users/davutinat/Documents/GitHub/Balls To Hoop/Balls To Hoop/Library/PackageCache/com.unity.ads.ios-support@1.2.0
+      assetPath: Packages/com.unity.ads.ios-support
+      name: com.unity.ads.ios-support
+      displayName: iOS 14 Advertising Support
+      author:
+        name: 
+        email: 
+        url: 
+      category: 
+      type: asset
+      description: 'Provides support for App Tracking Transparency and SkAdNetwork
+        API newly introduced in Apple iOS 14.
+
+
+        Includes a sample implementation
+        of a customizable context screen to show before requesting tracking permission.'
+      status: 4
+      errors: []
+      versions:
+        all:
+        - 0.1.0-preview.1
+        - 0.1.0-preview.2
+        - 0.2.0-preview.3
+        - 1.0.0
+        - 1.2.0
+        compatible:
+        - 0.1.0-preview.1
+        - 0.1.0-preview.2
+        - 0.2.0-preview.3
+        - 1.0.0
+        - 1.2.0
+        verified: 
+      dependencies: []
+      resolvedDependencies: []
+      keywords: []
+      registry:
+        id: main
+        name: 
+        url: https://packages.unity.com
+        scopes: []
+        isDefault: 1
+        capabilities: 7
+      hasRegistry: 1
+      hideInEditor: 0
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 637716389320000000
+      documentationUrl: 
+      hasRepository: 1
+      repository:
+        type: git
+        url: https://github.com/Unity-Technologies/com.unity.ads.ios-support-private.git
+        revision: 2722a36909277e976667a939170f083ebd3a6a7f
+        path: 
     - packageId: com.unity.collab-proxy@1.15.15
       testable: 0
       isDirectDependency: 1
@@ -3026,6 +3086,7 @@ m_PackageAssets:
         - 1.9.0
         - 1.10.1
         - 1.11.0
+        - 1.12.0
         compatible:
         - 1.0.1
         - 1.1.0-pre.7
@@ -3051,6 +3112,7 @@ m_PackageAssets:
         - 1.9.0
         - 1.10.1
         - 1.11.0
+        - 1.12.0
         verified: 1.0.1
       dependencies:
       - name: com.unity.modules.unitywebrequest

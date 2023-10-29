@@ -32,13 +32,13 @@ public class MenuAnimationManager : MonoBehaviour
             case 0:
                 NormalBall.SetActive(true);
                 NormalSelectedBelirt.SetActive(true);
-                NormalSelectedBelirt.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
+                NormalSelectedBelirt.transform.DOMoveX(0, .5f).SetEase(Ease.InOutBack).From();
 
                 break;
             case 1:
                 LavaBall.SetActive(true);
                 LavaSelectedBelirt.SetActive(true);
-                LavaSelectedBelirt.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
+                LavaSelectedBelirt.transform.DOMoveX(0, .5f).SetEase(Ease.InOutBack).From();
                 break;//case 2 pumpking eklenecek
             default:
                 NormalBall.SetActive(true);
@@ -48,7 +48,6 @@ public class MenuAnimationManager : MonoBehaviour
     private void Start()
     {
 
-        
         OyuncununParası = PlayerPrefs.GetInt("Para");
         StartMenuAnimations();
         Debug.Log(OyuncununParası);
@@ -190,7 +189,7 @@ public class MenuAnimationManager : MonoBehaviour
         if (!LavaSelectedBelirt.activeSelf)
         {
             LavaSelectedBelirt.SetActive(true);
-            LavaSelectedBelirt.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
+            LavaSelectedBelirt.transform.DOMoveX(0, .4f).SetEase(Ease.InOutBack).From();
         }
 
         if (LavaSelectedBelirt.transform.localPosition.x==0)
@@ -231,7 +230,7 @@ public class MenuAnimationManager : MonoBehaviour
         if (!NormalSelectedBelirt.activeSelf)
         {
             NormalSelectedBelirt.SetActive(true);
-            NormalSelectedBelirt.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
+            NormalSelectedBelirt.transform.DOMoveX(0, .4f).SetEase(Ease.InOutBack).From();
         }
 
         if (NormalSelectedBelirt.transform.localPosition.x==0)//if olmadan shake kodu yüzünden üstteki move animasyonu yarıda kesiliyor
@@ -256,6 +255,10 @@ public class MenuAnimationManager : MonoBehaviour
             //satın alma butonu yerine select butonu gelecek;
             LavaSatınAlButonObj.SetActive(false);
             LavaSelectObj.SetActive(true);
+        }
+        else
+        {
+            LavaSatınAlButonObj.SetActive(true);
         }
 
         if (PlayerPrefs.GetString("isPumpkinBallPurchased") == "true")//bunu pumpkin için kontrol et tekrar

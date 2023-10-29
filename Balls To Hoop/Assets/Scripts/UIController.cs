@@ -33,13 +33,14 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        BaslangıcSesDegerleriniCek();
+        
 
 
     }
 
     private void Start()
     {
+        BaslangıcSesDegerleriniCek();
         Time.timeScale = 1;
         baslangicAnimasyonPaneli.DOFade(0, 1f);
         Debug.Log("Efekt playerprefs Değeri Oyun Sahnesi " + PlayerPrefs.GetFloat("Efekt"));
@@ -92,6 +93,14 @@ public class UIController : MonoBehaviour
 
     #region Butonlar
 
+
+    public void ReklamIzleDevamEt()
+    {
+        AdManager.instance.OdulluGoster();//admanagerdan reklamı çektik.
+    }
+
+
+
     public void PauseMenuAc()
     {
         SoundManager.instance.ButtonClickSesCal();
@@ -108,7 +117,7 @@ public class UIController : MonoBehaviour
         SoundManager.instance.ButtonClickSesCal();
         SesAyarla();
         //PauseMenuPanel.SetActive(false);//dotween ile hareket ettir sahneye çağır
-        PauseMenuPanel.transform.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
+        PauseMenuPanel.transform.DOLocalMoveX(2000, .4f).SetEase(Ease.InOutBack);
         Time.timeScale = 1;
         GameManager.instance.oyunBasladı = true;
     }
@@ -116,7 +125,7 @@ public class UIController : MonoBehaviour
     public void GameOverMenuGetir()
     {
         GameOverMenuPanel.SetActive(true);
-        GameOverMenuPanel.transform.DOLocalMoveX(0, 1).SetEase(Ease.InOutBack);
+        GameOverMenuPanel.transform.DOLocalMoveX(0, .5f).SetEase(Ease.InOutBack);
     }
     public void GameOverMenuGotur()
     {
