@@ -66,6 +66,7 @@ public class engel : MonoBehaviour
         if (collision.gameObject.tag == "Top")
         {
             collision.gameObject.GetComponent<Top>().PumpkinParcala();
+            StartCoroutine(GameManager.instance.KaybetmeyiBeklet());
         }
     }
     

@@ -10,16 +10,18 @@ public class MenuAnimationManager : MonoBehaviour
 {
     public Transform  PlayButton, QuitObj, MarketObj,SettingsObj,OyunIsmiObj,MevcutParaText;
     private int OyuncununParası;
-    public GameObject LavaBall, NormalBall; //pumpkinball ekle
+    public GameObject LavaBall, NormalBall,PumpkinBall; //pumpkinball ekle
 //    private string isLavaBallPurchased = "isLavaBallPurchased";
     private string SecılenTop = "SeçilenTop";
     public GameObject LavaSatınAlButonObj;
     public GameObject LavaSelectObj;
+    public GameObject PumpkinBallSelectedObj;
     public Image BaslangınAnim;
     int topType;
     public GameObject LavaSelectedBelirt;
     public GameObject NormalSelectedBelirt;
-    //public GameObject PumpkinBallSelectedObj;
+    public GameObject PumpkinSelectedBelirt;
+
 
     private void Awake()
     {
@@ -40,6 +42,11 @@ public class MenuAnimationManager : MonoBehaviour
                 LavaSelectedBelirt.SetActive(true);
                 LavaSelectedBelirt.transform.DOMoveX(0, .5f).SetEase(Ease.InOutBack).From();
                 break;//case 2 pumpking eklenecek
+            case 2:
+                PumpkinBall.SetActive(true);
+                PumpkinSelectedBelirt.SetActive(true);
+                PumpkinSelectedBelirt.transform.DOMoveX(0, .5f).SetEase(Ease.InOutBack).From();
+                break;
             default:
                 NormalBall.SetActive(true);
                 break;
@@ -162,6 +169,10 @@ public class MenuAnimationManager : MonoBehaviour
         {
             NormalSelectedBelirt.transform.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
         }
+        if (PumpkinSelectedBelirt.activeSelf)
+        {
+            PumpkinSelectedBelirt.transform.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
+        }
         OyunIsmiObj.DOLocalMoveY(2000,1).SetEase(Ease.InOutBack);
         MevcutParaText.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
         PlayButton.DOMoveX(-2000, 1f).SetEase(Ease.InOutBack);
@@ -199,29 +210,33 @@ public class MenuAnimationManager : MonoBehaviour
         
 
         NormalSelectedBelirt.SetActive(false);
-        //PumpkinBallSelectedObj.SetActive(false); pumpkin ekledikten sonra
-        PlayerPrefs.SetInt(SecılenTop, 1);// oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
+        PumpkinSelectedBelirt.SetActive(false);
+        PlayerPrefs.SetInt(SecılenTop, 1);
+        PlayerPrefs.SetInt("Halloween", 1);// oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
     }
-    /*public void PumpkinBallSelected()// Bunlar select butonuna atanacak;
+    public void PumpkinBallSelected()// Bunlar select butonuna atanacak;
     {
         AnaMenuSesManager.instance.ClickSesCal();
         //playerprefs balltype anahtar kelimesine 1 veya 2 atayarak oyun sahnesinden kontrol sağlayacağız;
-        if (!PumpkinBallSelectedObj.activeSelf)
+        if (!PumpkinSelectedBelirt.activeSelf)
         {
-            PumpkinBallSelectedObj.SetActive(true);
-            PumpkinBallSelectedObj.transform.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
+            PumpkinSelectedBelirt.SetActive(true);
+            PumpkinSelectedBelirt.transform.DOMoveX(0, .4f).SetEase(Ease.InOutBack).From();
         }
 
-        if (PumpkinBallSelectedObj.transform.localPosition.x == 0)
+        if (PumpkinSelectedBelirt.transform.localPosition.x == 0)
         {
-            PumpkinBallSelectedObj.transform.DOShakePosition(1, 10, 10);
+            PumpkinSelectedBelirt.transform.DOShakePosition(1, 10, 10);
         }
 
 
         NormalSelectedBelirt.SetActive(false);
         LavaSelectedBelirt.SetActive(false);
-        PlayerPrefs.SetInt(SecılenTop, 2);// oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
-    }*/
+
+        PlayerPrefs.SetInt(SecılenTop, 2);
+        PlayerPrefs.SetInt("Halloween", 2);
+        // oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
+    }
 
     public void NormalBallSelected()
     {
@@ -240,8 +255,9 @@ public class MenuAnimationManager : MonoBehaviour
         
         
         LavaSelectedBelirt.SetActive(false);
-        //PumpkinBallSelectedObj.SetActive(false);
-        PlayerPrefs.SetInt(SecılenTop, 0);// oyun sahnesinden awakede bunu kontrol ederek if şartı ile topu aktif edeceğiz;
+        PumpkinSelectedBelirt.SetActive(false);
+        PlayerPrefs.SetInt(SecılenTop, 0);
+        PlayerPrefs.SetInt("Halloween", 1);//burada sahneye ekleyeceğiz parallaxı etkinleştireceğimiz kontrol ettik 2 ise etkin
     }
     // Oyuncunun sahip olduğu satın alınan objeleri kontrol etme
 

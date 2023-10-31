@@ -10,6 +10,7 @@ public class Top : MonoBehaviour
     public int basketDegeri;
     SphereCollider sc;
     public Vector3 baslangıcpoz;
+    public GameObject ParcalananBalkabagi;
     private void Start()
     {
         baslangıcpoz = transform.position;
@@ -23,45 +24,34 @@ public class Top : MonoBehaviour
          
          rb.useGravity = true;
          rb.isKinematic = false;
-        /*if (this.gameObject.name=="balkabagitop")
+        if (this.gameObject.name=="balkabagitop")
         {
             foreach (Rigidbody rig in gameObject.GetComponentsInChildren<Rigidbody>())
             {
                 rig.useGravity = true;
             }
-        }*/
+        }
         
     }
 
     public void PumpkinParcala()
     {
-        if (gameObject.name=="balkabagitop")
+        if (gameObject.name == "balkabagitop")//parcalanmıs kabagı spawn ettik diğerini yarı yok ettik.
         {
-            gameObject.GetComponent<SphereCollider>().enabled = false;
-
-            gameObject.GetComponent<Rigidbody>().useGravity = false;
-            Debug.Log("rb kodunu geçti");
-            Debug.Log("rb kodunu geçti");
-            Debug.Log("Pumpkin parçalamaya girdi");
-            foreach (SphereCollider col in gameObject.GetComponentsInChildren<SphereCollider>())
-            {
-                if (col != null)
-                {
-                    col.enabled = true;
-
-                }
-                else
-                    Debug.Log("Bu Top Balkabağı Topu Değil !");
-                foreach (Rigidbody rig in gameObject.GetComponentsInChildren<Rigidbody>())
-                {
-                    rig.useGravity = true;
-                    rig.isKinematic = false;
-                }
-            }
+           
+            
+            SoundManager.instance.KabakParcalanmaCal();
+            GameObject tmp= Instantiate(ParcalananBalkabagi, transform.position, transform.rotation);
+            gameObject.SetActive(false);
+            Destroy(tmp, 3f);
         }
+        else
+            Debug.Log("BU OBJE BALKABAGİ DEĞİL");
+
         
     }
 
+   
    
     private void OnTriggerEnter(Collider other)
     {
@@ -118,8 +108,15 @@ public class Top : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        SoundManager.instance.SekmeSesCal();
+        if (this.gameObject.name == "balkabagitop"&&collision.gameObject.tag=="engel")
+        {
+            return;
+
+        }
+        else
+            SoundManager.instance.SekmeSesCal();
+
     }
 
-    
+
 }

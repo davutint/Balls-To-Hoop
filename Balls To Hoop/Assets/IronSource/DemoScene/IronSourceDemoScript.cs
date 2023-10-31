@@ -29,6 +29,9 @@ public class IronSourceDemoScript : MonoBehaviour
         IronSource.Agent.setConsent(true);
         IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
         IronSource.Agent.setMetaData("is_test_suite", "enable");
+        IronSource.Agent.setMetaData("AdMob_TFCD", "false");
+        IronSource.Agent.setMetaData("AdMob_TFUA", "false");
+
         IronSource.Agent.init("1c2ac2e15", IronSourceAdUnits.REWARDED_VIDEO);
         IronSource.Agent.validateIntegration();
     }

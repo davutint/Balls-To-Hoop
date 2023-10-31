@@ -25,9 +25,8 @@ public class AdManager : MonoBehaviour
     public void InitializeAds()
     {
         IronSource.Agent.setConsent(true);
-        IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
-        IronSource.Agent.setMetaData("is_test_suite", "enable");
-        IronSource.Agent.init("1c2ac2e15", IronSourceAdUnits.REWARDED_VIDEO);
+        IronSource.Agent.setMetaData("is_test_suite", "enable");//yayımlarken sil
+        IronSource.Agent.init(appKey);
         IronSource.Agent.validateIntegration();
     }
 
@@ -55,8 +54,7 @@ public class AdManager : MonoBehaviour
     public void SdkInitializationCompletedEvent()
     {
         Debug.Log("IronSource has been initialized with success");
-        IronSourceRewardedVideoEvents.onAdAvailableEvent += RewardedVideoOnAdAvailable;
-        IronSource.Agent.launchTestSuite();
+        IronSource.Agent.launchTestSuite(); // yayımlarken sil
 
     }
 
@@ -68,6 +66,10 @@ public class AdManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        IronSourceEvents.onSdkInitializationCompletedEvent += SdkInitializationCompletedEvent;
+
+
+        IronSourceRewardedVideoEvents.onAdAvailableEvent += RewardedVideoOnAdAvailable;
 
         //Add AdInfo Rewarded Video Events
         IronSourceRewardedVideoEvents.onAdOpenedEvent += RewardedVideoOnAdOpenedEvent;

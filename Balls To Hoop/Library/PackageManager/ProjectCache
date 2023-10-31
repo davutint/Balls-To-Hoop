@@ -5,21 +5,123 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638341465540000000
-    m_Hash: 1841337405
+      ticks: 638343531250000000
+    m_Hash: 2698651538
   m_LockFileStatus:
     m_FilePath: /Users/davutinat/Documents/GitHub/Balls To Hoop/Balls To Hoop/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638341465540000000
-    m_Hash: 2346171697
+      ticks: 638343531250000000
+    m_Hash: 3382605877
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
   m_Packages:
     m_ResolvedPackages:
+    - packageId: com.apple.unityplugin.core@file:/Users/davutinat/Desktop/unityplugins-main/Build/com.apple.unityplugin.core-1.0.3.tgz
+      testable: 0
+      isDirectDependency: 1
+      version: 1.0.3
+      source: 6
+      resolvedPath: /Users/davutinat/Documents/GitHub/Balls To Hoop/Balls To Hoop/Library/PackageCache/com.apple.unityplugin.core@f39c4f6913e3
+      assetPath: Packages/com.apple.unityplugin.core
+      name: com.apple.unityplugin.core
+      displayName: Apple.Core
+      author:
+        name: Apple, Inc
+        email: developer@apple.com
+        url: https://developer.apple.com
+      category: 
+      type: 
+      description: Provides project settings, post-build automation tools, and other
+        shared functionality for Apple Unity Plug-ins.
+      status: 4
+      errors: []
+      versions:
+        all: []
+        compatible: []
+        verified: 
+      dependencies: []
+      resolvedDependencies: []
+      keywords:
+      - apple
+      registry:
+        id: main
+        name: 
+        url: https://packages.unity.com
+        scopes: []
+        isDefault: 1
+        capabilities: 7
+      hasRegistry: 1
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 0
+      documentationUrl: 
+      hasRepository: 0
+      repository:
+        type: 
+        url: 
+        revision: 
+        path: 
+    - packageId: com.apple.unityplugin.gamekit@file:/Users/davutinat/Desktop/unityplugins-main/Build/com.apple.unityplugin.gamekit-1.0.4.tgz
+      testable: 0
+      isDirectDependency: 1
+      version: 1.0.4
+      source: 6
+      resolvedPath: /Users/davutinat/Documents/GitHub/Balls To Hoop/Balls To Hoop/Library/PackageCache/com.apple.unityplugin.gamekit@8917a26b979e
+      assetPath: Packages/com.apple.unityplugin.gamekit
+      name: com.apple.unityplugin.gamekit
+      displayName: Apple.GameKit
+      author:
+        name: Apple, Inc
+        email: developer@apple.com
+        url: https://developer.apple.com
+      category: 
+      type: 
+      description: Exposes Apple's GameKit.framework to Unity developers via C# script
+        API
+      status: 4
+      errors: []
+      versions:
+        all: []
+        compatible: []
+        verified: 
+      dependencies:
+      - name: com.apple.unityplugin.core
+        version: 1.0.2
+      resolvedDependencies:
+      - name: com.apple.unityplugin.core
+        version: 1.0.3
+      keywords:
+      - gamekit
+      - game center
+      - achievements
+      - matchmaking
+      - apple
+      registry:
+        id: main
+        name: 
+        url: https://packages.unity.com
+        scopes: []
+        isDefault: 1
+        capabilities: 7
+      hasRegistry: 1
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 0
+      documentationUrl: 
+      hasRepository: 0
+      repository:
+        type: 
+        url: 
+        revision: 
+        path: 
     - packageId: com.unity.ads.ios-support@1.2.0
       testable: 0
       isDirectDependency: 1
@@ -3142,6 +3244,34 @@ m_PackageAssets:
         revision: 4cd880d4fd5c60597629249bf4f324e4c8d7aa2e
         path: 
   m_LocalPackages:
-    m_LocalFileStatus: []
+    m_LocalFileStatus:
+    - m_FilePath: /Users/davutinat/Desktop/unityplugins-main/Build/com.apple.unityplugin.core-1.0.3.tgz/package.json
+      m_PathExists: 0
+      m_ContentTrackingEnabled: 1
+      m_ModificationDate:
+        serializedVersion: 2
+        ticks: 0
+      m_Hash: 0
+    - m_FilePath: /Users/davutinat/Desktop/unityplugins-main/Build/com.apple.unityplugin.core-1.0.3.tgz
+      m_PathExists: 1
+      m_ContentTrackingEnabled: 1
+      m_ModificationDate:
+        serializedVersion: 2
+        ticks: 638182681130000000
+      m_Hash: 671514324
+    - m_FilePath: /Users/davutinat/Desktop/unityplugins-main/Build/com.apple.unityplugin.gamekit-1.0.4.tgz/package.json
+      m_PathExists: 0
+      m_ContentTrackingEnabled: 1
+      m_ModificationDate:
+        serializedVersion: 2
+        ticks: 0
+      m_Hash: 0
+    - m_FilePath: /Users/davutinat/Desktop/unityplugins-main/Build/com.apple.unityplugin.gamekit-1.0.4.tgz
+      m_PathExists: 1
+      m_ContentTrackingEnabled: 1
+      m_ModificationDate:
+        serializedVersion: 2
+        ticks: 638182682420000000
+      m_Hash: 1951850433
 m_ProjectPath: /Users/davutinat/Documents/GitHub/Balls To Hoop/Balls To Hoop/Packages
 m_EditorVersion: 2020.3.33f1 (915a7af8b0d5)

@@ -36,7 +36,7 @@ public class AnaMenuSettings : MonoBehaviour
         oyunsesi = oyunSesSlider.value;//slider valueları floatın değeri oluyor
 
         efekt = EfektSesSlider.value;//aşagıda bu değerleri playerprefs yapıp oyun sahnesinde erişilebilir yapmış olacağız
-        SettingsPanel.transform.DOMoveX(-2000, 1).SetEase(Ease.InOutBack);
+        SettingsPanel.transform.DOMoveX(-2000, .5f).SetEase(Ease.InOutBack);
         PlayerPrefsYap();
     }
     private void PlayerPrefsYap()
@@ -53,7 +53,7 @@ public class AnaMenuSettings : MonoBehaviour
     public void OpenSettingsMenu()
     {
         AnaMenuSesManager.instance.ClickSesCal();
-        SettingsPanel.transform.DOLocalMoveX(0, 1).SetEase(Ease.InOutBack);
+        SettingsPanel.transform.DOLocalMoveX(0, .5f).SetEase(Ease.InOutBack);
     }
     public void PlayerPrefsAl()//varolan playerprefsi alacak
     {

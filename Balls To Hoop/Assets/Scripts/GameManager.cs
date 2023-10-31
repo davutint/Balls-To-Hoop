@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+using Apple.GameKit.Leaderboards;
+using Apple.GameKit;
+using Apple.GameKit.Multiplayer;
+using System.Linq;
+using System.Threading.Tasks;
 public class GameManager : MonoBehaviour
 {
     [Header("-----UI  OBJELERİ")]
@@ -38,14 +43,15 @@ public class GameManager : MonoBehaviour
     public GameObject NiceEfektObj;
     public int yüksekSkore;
     public int oyunSonupara;
-    Top topScript;
+    private Top topScript;
 
+    public GameObject HalloweenArkaPlan;
     int topType;
-
+    int hallo;
     private void Awake()
     {
         topType = PlayerPrefs.GetInt("SeçilenTop");   //burayı aktif et daha sonra, balkabağıda ekle
-
+        hallo = PlayerPrefs.GetInt("Halloween");
         switch (topType)
         {
             case 0:
@@ -61,6 +67,13 @@ public class GameManager : MonoBehaviour
                 NormalBall.SetActive(true);
                 break;
         }
+
+        if (hallo == 2)
+        {
+            HalloweenArkaPlan.SetActive(true);
+        }
+        else
+            HalloweenArkaPlan.SetActive(false);
 
         instance = this;
         Top = GameObject.FindGameObjectWithTag("Top");
@@ -178,6 +191,26 @@ public class GameManager : MonoBehaviour
 
         UIController.instance.YüksekSkoreTextGuncelle(yeniYüksekScore);
 
+        OnReportLeaderboardScore(yeniYüksekScore);
+    }
+
+    private async void OnReportLeaderboardScore(int YüksekSkore)
+    {
+        var leaderboards = await GKLeaderboard.LoadLeaderboards();
+        var leaderboard = leaderboards.First(l => l.BaseLeaderboardId == "BallsTop");
+
+        await leaderboard.SubmitScore(YüksekSkore, 0, GKLocalPlayer.Local);
+
+
+
+        var scores = await leaderboard.LoadEntries(GKLeaderboard.PlayerScope.Global, GKLeaderboard.TimeScope.AllTime, 0, 100);
+
+        Debug.LogError($"my score: {scores.LocalPlayerEntry.Score}");
+
+        foreach (var score in scores.Entries)
+        {
+            Debug.LogError($"score: {score.Score} by {score.Player.DisplayName}");
+        }
     }
 
     public void PotaDegıs()
@@ -198,10 +231,19 @@ public class GameManager : MonoBehaviour
         UIController.instance.OyunSonuKazanılanParaText();
     }
 
-    
+    public IEnumerator KaybetmeyiBeklet()
+    {
+        yield return new WaitForSeconds(3f);
+        Kaybettin();
+    }
+
 
     public void DevamEt()//reklam izletip oyuna devam ettireceğiz;//bunu rewarded tamamlanınca instancedan çağır
     {
+        if (!Top.activeSelf)
+        {
+            Top.SetActive(true);
+        }
         Top.transform.position = Top.GetComponent<Top>().baslangıcpoz;
         UIController.instance.GameOverMenuGotur();
         oyunBasladı = false;
@@ -210,10 +252,7 @@ public class GameManager : MonoBehaviour
         UIController.instance.TapToStartButonu.SetActive(true);
     }
 
-    public void PotaBüyüt()
-    {
-        Pota.transform.localScale = new Vector3(55, 55, 55);
-    }
+    
 
     
 
@@ -227,25 +266,25 @@ public class GameManager : MonoBehaviour
 
     void EngelAyarları()
     {
-        if (BasketSayısı== 2)
+        if (BasketSayısı== 5)
         {
             Engeller[0].SetActive(true);
         }
-        else if(BasketSayısı == 3)
+        else if(BasketSayısı == 10)
         {
             Engeller[1].SetActive(true);
         }
-        else if (BasketSayısı == 4)
+        else if (BasketSayısı == 25)
         {
             Engeller[2].SetActive(true);
         }
-        else if (BasketSayısı == 5)
+        else if (BasketSayısı == 50)
         {
-            Engeller[2].SetActive(true);
+            Engeller[3].SetActive(true);
         }
     }
 
-    public int ParaKazanmaMiktarı()//bu kod bozuk
+    public int ParaKazanmaMiktarı()
     {
         int para = PlayerPrefs.GetInt("Para");//oyun basında tuttuğun mevcut parayı oyun sonundaki para ile karşılaştır
         //oyun basında bir int belirleyip bunu top scriptinde güncelleyelim sonra kazanılan miktarda bu işlemi yapalım

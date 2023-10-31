@@ -12,19 +12,35 @@ public class SoundManager : MonoBehaviour
     public AudioSource ParaTopla;
     public AudioSource Nice;
     public AudioSource ButtonClick;
-
-
+    public AudioSource kabakParcalanma;
+    public AudioSource HalloweenSesi;
+    int hallo;
     private void Awake()
     {
         instance = this;
 
         //UIController.instance.SesAyarla();
+        hallo = PlayerPrefs.GetInt("Halloween");
+        if (hallo == 2)
+        {
+            HalloweenSesi.Play();
+        }
+        else
+            OyunSesi.Play();
+    }
+    private void Start()
+    {
+       
     }
 
 
     public void ButtonClickSesCal()
     {
         ButtonClick.Play();
+    }
+    public void KabakParcalanmaCal()
+    {
+        kabakParcalanma.Play();
     }
     public void SekmeSesCal()
     {
