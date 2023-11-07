@@ -63,7 +63,7 @@ public class engel : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)// Balkabağı topunu burada parçalıyoruz
     {
-        if (collision.gameObject.tag == "Top")
+        if (collision.gameObject.name== "balkabagitop")
         {
             collision.gameObject.GetComponent<Top>().PumpkinParcala();
             StartCoroutine(GameManager.instance.KaybetmeyiBeklet());

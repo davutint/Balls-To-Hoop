@@ -5,15 +5,18 @@ using UnityEngine.SceneManagement;
 using DG.Tweening;
 using UnityEngine.UI;
 using TMPro;
+using Apple.GameKit.Leaderboards;
+using Apple.GameKit;
 
 public class MenuAnimationManager : MonoBehaviour
 {
-    public Transform  PlayButton, QuitObj, MarketObj,SettingsObj,OyunIsmiObj,MevcutParaText;
+    public Transform PlayButton, QuitObj, MarketObj, SettingsObj, OyunIsmiObj, MevcutParaText;
     private int OyuncununParası;
-    public GameObject LavaBall, NormalBall,PumpkinBall; //pumpkinball ekle
-//    private string isLavaBallPurchased = "isLavaBallPurchased";
+    public GameObject LavaBall, NormalBall, PumpkinBall; //pumpkinball ekle
+                                                         //    private string isLavaBallPurchased = "isLavaBallPurchased";
     private string SecılenTop = "SeçilenTop";
     public GameObject LavaSatınAlButonObj;
+
     public GameObject LavaSelectObj;
     public GameObject PumpkinBallSelectedObj;
     public Image BaslangınAnim;
@@ -73,7 +76,7 @@ public class MenuAnimationManager : MonoBehaviour
         PlayButton.DOScale(new Vector2(.87f, 1.23f), .55f).SetLoops(-1, LoopType.Yoyo);
         PlayButton.DOMoveX(0, 1f).SetEase(Ease.InOutBack).From();
 
-        OyunIsmiObj.DOMoveY(0,1).SetEase(Ease.InOutBack).From();
+        OyunIsmiObj.DOMoveY(0, 1).SetEase(Ease.InOutBack).From();
         MevcutParaText.DOMoveX(0, 1).SetEase(Ease.InOutBack).From();
 
         MarketObj.DOScale(new Vector2(.77f, 1.13f), .55f).SetLoops(-1, LoopType.Yoyo);
@@ -90,7 +93,7 @@ public class MenuAnimationManager : MonoBehaviour
     {
         AnaMenuSesManager.instance.ClickSesCal();
         string satınalındıMı = PlayerPrefs.GetString("isLavaBallPurchased");
-        if (OyuncununParası>=ObjeDegeri)//oyuncu tekrar satın alamasın diye bir kontrol daha yap
+        if (OyuncununParası >= ObjeDegeri)//oyuncu tekrar satın alamasın diye bir kontrol daha yap
         {
             if (satınalındıMı != "true")
             {
@@ -98,11 +101,11 @@ public class MenuAnimationManager : MonoBehaviour
                 PlayerPrefs.SetInt("Para", OyuncununParası);
                 PlayerPrefs.SetString("isLavaBallPurchased", "true");//LavaBall Satın alındı ve birdaha alınamaz;
                 MarketObjeleriSatınAlımKontrol();
-                AnaMenuSettings.instance.MevcutParaText.text= PlayerPrefs.GetInt("Para").ToString() + " $";
+                AnaMenuSettings.instance.MevcutParaText.text = PlayerPrefs.GetInt("Para").ToString() + " $";
                 Debug.Log("Satın alma Gerçekleşti  " + OyuncununParası);
                 Debug.Log(PlayerPrefs.GetString("isLavaBallPurchased"));
             }
-            if (satınalındıMı=="true")
+            if (satınalındıMı == "true")
             {
                 Debug.Log("ZATEN SATIN ALDIN");
 
@@ -117,6 +120,11 @@ public class MenuAnimationManager : MonoBehaviour
             Debug.Log("Paran yetmiyor");
         }
     }
+
+
+
+
+
 
     /*public void PumpkinSatınAl(int ObjeDegeri)// IAP ile alınabilir yapacağız.
     {
@@ -160,12 +168,18 @@ public class MenuAnimationManager : MonoBehaviour
 
     public void PlayGame()
     {
+        if (GKAccessPoint.Shared.IsActive == true) // yayımlarken sil yorum satırlarını
+        {
+            GKAccessPoint.Shared.IsActive = false;
+        }
+
+
         AnaMenuSesManager.instance.ClickSesCal();
         if (LavaSelectedBelirt.activeSelf)
         {
             LavaSelectedBelirt.transform.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
         }
-        if(NormalSelectedBelirt.activeSelf)
+        if (NormalSelectedBelirt.activeSelf)
         {
             NormalSelectedBelirt.transform.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
         }
@@ -173,7 +187,7 @@ public class MenuAnimationManager : MonoBehaviour
         {
             PumpkinSelectedBelirt.transform.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
         }
-        OyunIsmiObj.DOLocalMoveY(2000,1).SetEase(Ease.InOutBack);
+        OyunIsmiObj.DOLocalMoveY(2000, 1).SetEase(Ease.InOutBack);
         MevcutParaText.DOLocalMoveX(2000, 1).SetEase(Ease.InOutBack);
         PlayButton.DOMoveX(-2000, 1f).SetEase(Ease.InOutBack);
         MarketObj.DOMoveX(2000, 1f).SetEase(Ease.InOutBack);
@@ -187,7 +201,7 @@ public class MenuAnimationManager : MonoBehaviour
 
                 SceneManager.LoadScene(1);//oyun sahnesi setting tamamlanınca yükleniyor;
             });
-            
+
         });
     }
 
@@ -196,6 +210,7 @@ public class MenuAnimationManager : MonoBehaviour
     public void LavaBallSelected()// Bunlar select butonuna atanacak;
     {
         AnaMenuSesManager.instance.ClickSesCal();
+
         //playerprefs balltype anahtar kelimesine 1 veya 2 atayarak oyun sahnesinden kontrol sağlayacağız;
         if (!LavaSelectedBelirt.activeSelf)
         {
@@ -203,11 +218,11 @@ public class MenuAnimationManager : MonoBehaviour
             LavaSelectedBelirt.transform.DOMoveX(0, .4f).SetEase(Ease.InOutBack).From();
         }
 
-        if (LavaSelectedBelirt.transform.localPosition.x==0)
+        if (LavaSelectedBelirt.transform.localPosition.x == 0)
         {
             LavaSelectedBelirt.transform.DOShakePosition(1, 10, 10);
         }
-        
+
 
         NormalSelectedBelirt.SetActive(false);
         PumpkinSelectedBelirt.SetActive(false);
@@ -241,6 +256,8 @@ public class MenuAnimationManager : MonoBehaviour
     public void NormalBallSelected()
     {
         AnaMenuSesManager.instance.ClickSesCal();
+
+
         //playerprefs balltype anahtar kelimesine 1 veya 2 atayarak oyun sahnesinden kontrol sağlayacağız;
         if (!NormalSelectedBelirt.activeSelf)
         {
@@ -248,12 +265,12 @@ public class MenuAnimationManager : MonoBehaviour
             NormalSelectedBelirt.transform.DOMoveX(0, .4f).SetEase(Ease.InOutBack).From();
         }
 
-        if (NormalSelectedBelirt.transform.localPosition.x==0)//if olmadan shake kodu yüzünden üstteki move animasyonu yarıda kesiliyor
+        if (NormalSelectedBelirt.transform.localPosition.x == 0)//if olmadan shake kodu yüzünden üstteki move animasyonu yarıda kesiliyor
         {
             NormalSelectedBelirt.transform.DOShakePosition(1, 10, 10);
         }
-        
-        
+
+
         LavaSelectedBelirt.SetActive(false);
         PumpkinSelectedBelirt.SetActive(false);
         PlayerPrefs.SetInt(SecılenTop, 0);
@@ -264,8 +281,9 @@ public class MenuAnimationManager : MonoBehaviour
     public void MarketObjeleriSatınAlımKontrol()//aynısını pumpkin için yap
     {
         Debug.Log(PlayerPrefs.GetString("isLavaBallPurchased"));
+        Debug.Log(PlayerPrefs.GetString("isPumpkinBallPurchased"));
 
-        
+
         if (PlayerPrefs.GetString("isLavaBallPurchased") == "true")
         {
             //satın alma butonu yerine select butonu gelecek;
@@ -277,16 +295,11 @@ public class MenuAnimationManager : MonoBehaviour
             LavaSatınAlButonObj.SetActive(true);
         }
 
-        if (PlayerPrefs.GetString("isPumpkinBallPurchased") == "true")//bunu pumpkin için kontrol et tekrar
-        {
-            //pumpkin için olanları yazacaksın buraya
-            //satın alma butonu yerine select butonu gelecek;
-            //LavaSatınAlButonObj.SetActive(false);
-            //LavaSelectObj.SetActive(true);
-        }
+        //bunu pumpkin için kontrol et tekrar
+
     }
-    
-    
+
+
 
 
 

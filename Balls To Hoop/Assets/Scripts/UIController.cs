@@ -12,6 +12,7 @@ public class UIController : MonoBehaviour
 
 
     public GameObject TapToStartButonu;
+    public GameObject GameIntroductionobj;
     [Header("-----SLIDER  OBJELERİ")]
     public Slider AnaSesSlider;
     public Slider EfektSesSlider;
@@ -33,13 +34,14 @@ public class UIController : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        
+
 
 
     }
 
     private void Start()
     {
+
         BaslangıcSesDegerleriniCek();
         Time.timeScale = 1;
         baslangicAnimasyonPaneli.DOFade(0, 1f);
@@ -47,6 +49,7 @@ public class UIController : MonoBehaviour
         Debug.Log("OyunSesi playerprefs Değeri Oyun Sahnesi " + PlayerPrefs.GetFloat("OyunSesi"));
         SesAyarla();
     }
+
 
 
     public void AnaMenuyeDon()
@@ -57,6 +60,8 @@ public class UIController : MonoBehaviour
 
     }
 
+
+
     public void BaslangıcSesDegerleriniCek()
     {
         efektsesi = PlayerPrefs.GetFloat("Efekt");
@@ -66,12 +71,12 @@ public class UIController : MonoBehaviour
         AnaSesSlider.value = oyunsesi;
         EfektSesSlider.value = efektsesi;
 
-        
+
     }
 
     public void SesAyarla()//bunları playerprefs olarak ayarla sonra ana menuden çek/hem baslangıçta hem ayarladıktan sonra güncelle
     {
-        
+
         SoundManager.instance.OyunSesi.volume = AnaSesSlider.value;//su anki slider degeri ses degerine esit
         SoundManager.instance.Sekme.volume = EfektSesSlider.value;
         SoundManager.instance.PotayaGırıs.volume = EfektSesSlider.value;
@@ -89,16 +94,18 @@ public class UIController : MonoBehaviour
     }
 
 
-
+    public void GameIntroductionobjAc()
+    {
+        GameIntroductionobj.SetActive(true);
+    }
 
     #region Butonlar
 
-
-    public void ReklamIzleDevamEt()
+    public void GameIntroductionobjKapat()
     {
-        AdManager.instance.OdulluGoster();//admanagerdan reklamı çektik.
+        SoundManager.instance.ButtonClickSesCal();
+        GameIntroductionobj.SetActive(false);
     }
-
 
 
     public void PauseMenuAc()
@@ -173,7 +180,7 @@ public class UIController : MonoBehaviour
 
     public void OyunSonuKazanılanParaText()
     {
-        oyunSonuKazanılan.text = "+"+GameManager.instance.ParaKazanmaMiktarı().ToString() + " $";
+        oyunSonuKazanılan.text = "+" + GameManager.instance.ParaKazanmaMiktarı().ToString() + " $";
     }
 
     public void YüksekSkoreTextGuncelle(int yeniskore)

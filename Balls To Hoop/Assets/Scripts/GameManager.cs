@@ -13,11 +13,10 @@ public class GameManager : MonoBehaviour
 {
     [Header("-----UI  OBJELERİ")]
     [SerializeField] private TextMeshProUGUI basketSayısıText;
-   
+
 
     [Header("-----LEVEL TEMEL OBJELERİ")]
     [SerializeField] private GameObject Pota;
-    [SerializeField]private GameObject potaBuyutmeyetenk;
     [SerializeField] private GameObject[] xSpawnNoktaları;
     [SerializeField] private GameObject[] ySpawnNoktaları;
     [SerializeField] private GameObject[] Engeller;
@@ -32,7 +31,7 @@ public class GameManager : MonoBehaviour
     Rigidbody toprb;
     public float Uygulanacakguc;
 
-    
+
     public static GameManager instance;
     public bool oyunBasladı = false;
     float timer = 0;
@@ -56,6 +55,7 @@ public class GameManager : MonoBehaviour
         {
             case 0:
                 NormalBall.SetActive(true);
+                UIController.instance.GameIntroductionobjAc();
                 break;
             case 1:
                 LavaBall.SetActive(true);
@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
                 break;
             default:
                 NormalBall.SetActive(true);
+                UIController.instance.GameIntroductionobjAc();
                 break;
         }
 
@@ -77,14 +78,14 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         Top = GameObject.FindGameObjectWithTag("Top");
-        yüksekSkore = PlayerPrefs.GetInt("yüksekSkore",0);
-        
+        yüksekSkore = PlayerPrefs.GetInt("yüksekSkore", 0);
+
     }
     private void Start()
     {
         oyunSonupara = 0;
         //yüksekskore texti güncelle bunun altına
-       
+
         toprb = Top.GetComponent<Rigidbody>();
 
 
@@ -130,10 +131,12 @@ public class GameManager : MonoBehaviour
 
             }
 
-            EngelAyarları();
+
+
+
         }
 
-  
+
     }
 
     public void NiceSpawn(int basket)
@@ -157,11 +160,11 @@ public class GameManager : MonoBehaviour
 
     void ParaSpawn()
     {
-        
+
         timer += Time.deltaTime;
         if (timer > waitTime)
         {
-            
+
             float x = Random.Range(xSpawnNoktaları[0].transform.position.x
                 , ySpawnNoktaları[0].transform.position.y);
 
@@ -173,7 +176,7 @@ public class GameManager : MonoBehaviour
             int rdn = Random.Range(0, 3);
 
             Instantiate(Elmaslar[rdn], poz, Quaternion.identity);
-            
+
             waitTime = Random.Range(nesneSpawnSuresi1, nesneSpawnSuresi2);
             timer = 0;
         }
@@ -182,24 +185,23 @@ public class GameManager : MonoBehaviour
 
     public void Basket(int basketDegeri)
     {
-       
-        BasketSayısı+=Top.GetComponent<Top>().basketDegeri;
+
+        BasketSayısı += Top.GetComponent<Top>().basketDegeri;
         UIController.instance.BasketText(BasketSayısı);
         NiceSpawn(BasketSayısı);
         PotaDegıs();
+        EngelAyarları();
         int yeniYüksekScore = YeniYuksekSkoreTespit(BasketSayısı);
-
         UIController.instance.YüksekSkoreTextGuncelle(yeniYüksekScore);
-
-        OnReportLeaderboardScore(yeniYüksekScore);
+        OnReportLeaderboardScore();
     }
 
-    private async void OnReportLeaderboardScore(int YüksekSkore)
+    public async void OnReportLeaderboardScore()
     {
         var leaderboards = await GKLeaderboard.LoadLeaderboards();
         var leaderboard = leaderboards.First(l => l.BaseLeaderboardId == "BallsTop");
 
-        await leaderboard.SubmitScore(YüksekSkore, 0, GKLocalPlayer.Local);
+        await leaderboard.SubmitScore(BasketSayısı, 0, GKLocalPlayer.Local);
 
 
 
@@ -217,17 +219,17 @@ public class GameManager : MonoBehaviour
     {
         float x = Random.Range(xSpawnNoktaları[0].transform.position.x, xSpawnNoktaları[1].transform.position.x);
         float y = Random.Range(ySpawnNoktaları[0].transform.position.y, xSpawnNoktaları[1].transform.position.y);
-        Pota.transform.position= new Vector3(x, y, potaBuyutmeyetenk.transform.position.z);
+        Pota.transform.position = new Vector3(x, y, Pota.transform.position.z);
     }
 
-    
+
 
     public void Kaybettin()//burayı reklam izlendiğinde oyunu devam ettirecek şekilde modifiye et
     {
         Debug.Log("KAYBETTİN");
         UIController.instance.GameOverMenuGetir();//uı controllerda fonksiyon oluşturup onu çalıştır;
         oyunBasladı = false;
-        
+
         UIController.instance.OyunSonuKazanılanParaText();
     }
 
@@ -248,13 +250,13 @@ public class GameManager : MonoBehaviour
         UIController.instance.GameOverMenuGotur();
         oyunBasladı = false;
         Top.GetComponent<Rigidbody>().useGravity = false;//topu baslangıca aldığımızda oyun basladığında son hıza yere
-        Top.GetComponent<Rigidbody>().isKinematic=true;//düşüyordu bu yüzdn bu iki kodu kullanmak zorunda kaldın.
+        Top.GetComponent<Rigidbody>().isKinematic = true;//düşüyordu bu yüzdn bu iki kodu kullanmak zorunda kaldın.
         UIController.instance.TapToStartButonu.SetActive(true);
     }
 
-    
 
-    
+
+
 
     public void OyunBasladı()
     {
@@ -266,11 +268,11 @@ public class GameManager : MonoBehaviour
 
     void EngelAyarları()
     {
-        if (BasketSayısı== 5)
+        if (BasketSayısı == 5)
         {
             Engeller[0].SetActive(true);
         }
-        else if(BasketSayısı == 10)
+        else if (BasketSayısı == 10)
         {
             Engeller[1].SetActive(true);
         }
@@ -282,6 +284,10 @@ public class GameManager : MonoBehaviour
         {
             Engeller[3].SetActive(true);
         }
+        else if (BasketSayısı == 65)
+        {
+            Engeller[4].SetActive(true);
+        }
     }
 
     public int ParaKazanmaMiktarı()
@@ -289,12 +295,12 @@ public class GameManager : MonoBehaviour
         int para = PlayerPrefs.GetInt("Para");//oyun basında tuttuğun mevcut parayı oyun sonundaki para ile karşılaştır
         //oyun basında bir int belirleyip bunu top scriptinde güncelleyelim sonra kazanılan miktarda bu işlemi yapalım
 
-        int kazanılanMiktar = para-(para-oyunSonupara);
+        int kazanılanMiktar = para - (para - oyunSonupara);
 
         return kazanılanMiktar; //oyun sonu panelinde uıda yazacak kısım;
     }
 
-    
+
 
     public int YeniYuksekSkoreTespit(int yeniSkor)
     {
@@ -306,12 +312,12 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("yüksekSkore", yüksekSkore);
             yeniYüksekSkore = yüksekSkore;
             return yeniYüksekSkore;
-            
+
         }
         else
             return yüksekSkore;
 
-        
+
     }
-    
+
 }

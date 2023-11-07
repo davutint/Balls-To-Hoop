@@ -25,9 +25,9 @@ public class AdManager : MonoBehaviour
     public void InitializeAds()
     {
         IronSource.Agent.setConsent(true);
-        IronSource.Agent.setMetaData("is_test_suite", "enable");//yayımlarken sil
         IronSource.Agent.init(appKey);
         IronSource.Agent.validateIntegration();
+        
     }
 
 
@@ -45,16 +45,14 @@ public class AdManager : MonoBehaviour
         else
         {
             print("Rewarded not ready !!");
-            OdulluReklamYukle();
         }
-            
+
     }
 
 
     public void SdkInitializationCompletedEvent()
     {
         Debug.Log("IronSource has been initialized with success");
-        IronSource.Agent.launchTestSuite(); // yayımlarken sil
 
     }
 
